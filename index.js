@@ -22,7 +22,13 @@ app.get('/', (req, res) => {
 
 app.get('/room/:rid/player/:pid/', function (req, res) {
   var roomInfo = {roomName: req.params.rid,  player: req.params.pid};
-  res.render("lobby", {info: roomInfo});
+  res.render("game", {info: roomInfo});
+})
+
+app.get('/room/:rid/', function (req, res) {
+  var room = req.params.rid;
+  var name = "NoName";
+  res.redirect(`/room/${room}/player/${name}`)
 })
 
 app.post("/createRoom",function(req, res){

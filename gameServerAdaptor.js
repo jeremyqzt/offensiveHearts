@@ -25,19 +25,34 @@ class gameServerAdaptor{
         return room;
     }
 
-    joinRoom(room, socket, player){
-        if (room in this.games) {
-            socket.join(room);
-            this.sockets[socket] = {
-                room: room,
-                player: player
-            };
+    createNamedRoom(name){
+        var room = name;
+        while (this.allRooms.includes(room)){
+            room = shortid.generate();
+        }
+        this.allRooms.push(room);
+        this.games[room] = new gameClass.offensiveHeart();
 
-            if (this.toLeave.includes(player)){
-                this.toLeave = this.toLeave.filter(item => !(item == player));
-            } else {
-                this.games[room].addPlayer(player);
-            }
+        return room;
+    }
+
+    joinRoom(room, socket, player){
+
+        //Sanity check - if direct room creation attempt
+        if (!(room in this.games)){ 
+            this.createNamedRoom(room);
+        }
+
+        socket.join(room);
+        this.sockets[socket] = {
+            room: room,
+            player: player
+        };
+
+        if (this.toLeave.includes(player)){
+            this.toLeave = this.toLeave.filter(item => !(item == player));
+        } else {
+            this.games[room].addPlayer(player);
         }
     }
 
@@ -65,7 +80,6 @@ class gameServerAdaptor{
     }
 
     async playerLeave(socket){
-
         await new Promise(r => setTimeout(r, 1000));
         var rid = this.getRoom(socket);
         var game = this.getGame(rid);
