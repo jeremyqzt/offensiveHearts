@@ -1,449 +1,1022 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png?">
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png?">
+    <head>
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/img/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/img/favicon-32x32.png?"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/img/favicon-16x16.png?"
+        />
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+            integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" type="text/css" href="/css/start.css" />
+        <link rel="stylesheet" type="text/css" href="/css/lobby.css" />
+
+        <title>Offensive Hearts Lobby</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="container">
+                <div class="container no-select">
+                    <div class="row">
+                        <h1 class="col-12 text-center display-4">
+                            Offensive Hearts 💕
+                        </h1>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C1">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C2">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C3">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C4">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C5">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C6">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C7">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C8">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C9">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C10">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C11">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R1C12">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                            <img
+                                class="invis"
+                                src="/img/back.png"
+                                draggable="false"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C1">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C2">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C3">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C4">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C5">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C6">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C7">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C8">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C9">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C10">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C11">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R2C12">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                            <img
+                                class="invis"
+                                src="/img/back.png"
+                                draggable="false"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C1">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C2">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C3">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C4">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C5">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C6">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C7">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C8">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C9">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C10">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C11">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R3C12">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                            <img
+                                class="invis"
+                                src="/img/back.png"
+                                draggable="false"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C1">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C2">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C3">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C4">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C5">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C6">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C7">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C8">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C9">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C10">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C11">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="cardFlip" id="R4C12">
+                                <div class="front">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div class="back">
+                                    <img
+                                        src="/img/back.png"
+                                        draggable="false"
+                                    />
+                                </div>
+                            </div>
+                            <img
+                                class="invis"
+                                src="/img/back.png"
+                                draggable="false"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="row no-gutters mt-3">
+                    <div class="col-12">
+                        <div class="jumbotron smallPadding">
+                            <div class="container">
+                                <div class="infoBarItem">Match ♣♠️♦️=2pts</div>
+                                <div class="infoBarItem">Match ♠️Q=-13pts</div>
+                                <div class="infoBarItem">Match ❤️=-1pt</div>
+                                <div class="infoBarItem">
+                                    🚪RoomID:
+                                    <p><%= info.roomName %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="col-12">
+                            <ul
+                                class="list-group list-group-flush rounded-border"
+                                id="messages"
+                            ></ul>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group mb-3">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="chatInput"
+                                    placeholder="Enter Your Message Here!"
+                                    aria-label="Message"
+                                    aria-describedby="sendMsg"
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                        class="btn btn-outline-primary"
+                                        type="button"
+                                        id="sendMsg"
+                                    >
+                                        Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row">
+                            <div class="col-12 h-25">
+                                <h3 class="text-center">Leaderboard</h3>
+                            </div>
+                            <div class="col-12 h-25">
+                                <div class="row justify-content-center">
+                                    <div class="col-3">
+                                        <div class="goldCircle">1</div>
+                                    </div>
+                                    <p class="col-5 smallText">
+                                        No One
+                                        <span class="badge badge-info">0</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12 h-25">
+                                <div class="row justify-content-center">
+                                    <div class="col-3">
+                                        <div class="silverCircle">2</div>
+                                    </div>
+                                    <p class="col-5 smallText">
+                                        No One
+                                        <span class="badge badge-info">0</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12 h-25">
+                                <div class="row justify-content-center">
+                                    <div class="col-3">
+                                        <div class="bronzeCircle">3</div>
+                                    </div>
+                                    <p class="col-5 smallText">
+                                        No One
+                                        <span class="badge badge-info">0</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="/css/start.css">
-    <link rel="stylesheet" type="text/css" href="/css/lobby.css">
+    <script>
+        var socket = io();
+        var pName = '<%= info.player %>';
 
-    <title>Offensive Hearts Lobby</title>
-  </head>
-  <body>
-    
-    <div class="container">
-      <div class="container">
-        <div class="row">
-          <h1 class="col-12 text-center display-4">Offensive Hearts 💕</h1>
-        </div>
-        <div class="row mt-3">
-          <div class="col-1">
-            <div class="cardFlip"  id="R1C1">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C2">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>        
-          </div>
-          <div class="col-1">
-            <div class="cardFlip"id="R1C3">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C4">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C5">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C6">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip"  id="R1C7">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C8">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C9">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C10">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C11">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R1C12">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-            <img class="invis" src="/img/back.png">
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-1">
-            <div class="cardFlip" id="R2C1">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C2">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C3">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C4">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C5">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C6">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C7">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C8">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip"  id="R2C9">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip"  id="R2C10">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C11">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R2C12">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-            <img class="invis" src="/img/back.png">
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-1">
-            <div class="cardFlip" id="R3C1">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C2">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>          
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C3">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C4">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C5">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C6">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C7">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C8">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C9">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C10">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C11">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R3C12">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-            <img class="invis" src="/img/back.png">
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-1">
-            <div class="cardFlip" id="R4C1">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C2">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>          
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C3">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C4">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C5">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C6">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C7">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C8">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C9">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C10">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C11">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img  src="/img/back.png"></div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="cardFlip" id="R4C12">
-              <div class="front"><img src="/img/back.png"></div>
-              <div class="back"><img src="/img/back.png"></div>
-            </div>
-            <img class="invis" src="/img/back.png">
-          </div>
-        </div>
-        <div class="row no-gutters mt-3">
-          <div class="col-12">
-            <div class="jumbotron smallPadding">
-              <div class="container">
-                <p>Match ♣♠️♦️=2pts &nbsp;&nbsp;&nbsp;&nbsp;
-                  Match ♠️Q=-13pts for everyone else  &nbsp;&nbsp;&nbsp;&nbsp;
-                  Match ❤️=-1pt for everyone else &nbsp;&nbsp;&nbsp;&nbsp;
-                  🚪RoomID: <%= info.roomName %></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-9">
-            <div class="col-12">
-              <ul class="list-group list-group-flush rounded-border" id="messages"> </ul>
-            </div>
-            <div class="col-12">
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" id="chatInput" placeholder="Enter Your Message Here!" aria-label="Message" aria-describedby="sendMsg">
-                <div class="input-group-append"> <button class="btn btn-outline-primary" type="button" id="sendMsg">Send Message</button> </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="row">
-              <div class="col-12 h-25"><h3 class="text-center">Leaderboard</h3></div>
-              <div class="col-12 h-25">
-                <div class="row justify-content-center">
-                  <div class="col-3"><div class="goldCircle">1</div></div> <p class="col-5 smallText">No One <span class="badge badge-info">0</span></p>
-                </div>
-              </div>
-              <div class="col-12 h-25">
-                <div class="row justify-content-center">
-                  <div class="col-3"><div class="silverCircle">2</div></div> <p class="col-5 smallText">No One <span class="badge badge-info">0</span></p>
-                </div>
-              </div>
-              <div class="col-12 h-25">
-                <div class="row justify-content-center">
-                  <div class="col-3"><div class="bronzeCircle">3</div></div> <p class="col-5 smallText">No One <span class="badge badge-info">0</span></p> 
-                </div>
-              </div>
-            </div>
-          </div>
-    </div>
-  </body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script>
-    var socket = io();
-    var pName = "<%= info.player %>";
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                $('#sendMsg').click();
+            }
+        });
 
-    $(document).keypress(function(e){
-      if (e.which == 13){
-          $("#sendMsg").click();
-      }
-    });
-
-    function faceUp(locat, img, name) {
-      $(locat).find(".front").addClass("frontFlip");
-      $(locat).find(".back").addClass("backFlip");
-      $(locat).find(".back").find("img").attr("src", img);
-      if (name == pName){
-        $(locat).find(".back").find("img").addClass("borderPulse");
-      }
-    }
-
-    function faceDown(locat) {
-      $(locat).find(".front").removeClass("frontFlip");
-      $(locat).find(".back").removeClass("backFlip");
-      $(locat).find(".back").find("img").attr("src", "/img/back.png");
-      $(locat).find(".back").find("img").removeClass("borderPulse");
-    }
-
-    $(".cardFlip").on("click touch", function(){
-      let req = $(this).attr("id");
-      let row = req.substr(1,1);
-      let col = req.substr(3);
-      socket.emit("flipReq", row, col, pName);
-    });
-
-    function test(qStr) {
-      window.location.href = '/gameOver'+qStr;
-    }
-
-    $(function () {
-      var roomId = "<%= info.roomName %>";
-      var name = "<%= info.player %>";
-      var element = document.getElementById("messages");
-      socket.emit("join", roomId, name);
-
-      $("#sendMsg").click(function(e){
-        var chat = $('#chatInput').val();
-        socket.emit('chat', name, chat);
-        $('#chatInput').val("");
-      })
-
-      socket.on('chat', function(msg){
-        $('#messages').append($('<li>').text(msg));
-        element.scrollTop = element.scrollHeight;
-      });
-
-      socket.on('serverFlip', function(locat, img, up, name){
-        //console.log(locat);
-        if(up) {
-          faceUp(locat, img, name);
-        } else {
-          faceDown(locat);
+        function faceUp(locat, img, name) {
+            $(locat).find('.front').addClass('frontFlip');
+            $(locat).find('.back').addClass('backFlip');
+            $(locat).find('.back').find('img').attr('src', img);
+            if (name == pName) {
+                $(locat).find('.back').find('img').addClass('borderPulse');
+            }
         }
-      });
 
-      socket.on('disappear', function(locat){
-        $(locat).hide();
-        $(locat).find(".back").find("img").removeClass("borderPulse");
-      });
-  
-      socket.on('scoreUpdate', function(newScore){
-        for (var i = 0; i< newScore.length; i++){
-          //<span id="score0" class="badge badge-info">0</span>
-          var scoreStr = newScore[i].player + "  <span class='badge badge-info'>"+newScore[i].score+"</span>";
-          $("#p" + i).html(scoreStr);
+        function faceDown(locat) {
+            $(locat).find('.front').removeClass('frontFlip');
+            $(locat).find('.back').removeClass('backFlip');
+            $(locat).find('.back').find('img').attr('src', '/img/back.png');
+            $(locat).find('.back').find('img').removeClass('borderPulse');
         }
-      });
-      socket.on('gameOver', function(qStr){
-        window.location.href = '/gameOver'+qStr;
-      });
-    });
 
-  </script>
+        $('.cardFlip').on('click touch', function () {
+            let req = $(this).attr('id');
+            let row = req.substr(1, 1);
+            let col = req.substr(3);
+            socket.emit('flipReq', row, col, pName);
+        });
+
+        function test(qStr) {
+            window.location.href = '/gameOver' + qStr;
+        }
+
+        $(function () {
+            var roomId = '<%= info.roomName %>';
+            var name = '<%= info.player %>';
+            var element = document.getElementById('messages');
+            socket.emit('join', roomId, name);
+
+            $('#sendMsg').click(function (e) {
+                var chat = $('#chatInput').val();
+                socket.emit('chat', name, chat);
+                $('#chatInput').val('');
+            });
+
+            socket.on('chat', function (msg) {
+                $('#messages').append($('<li>').text(msg));
+                element.scrollTop = element.scrollHeight;
+            });
+
+            socket.on('serverFlip', function (locat, img, up, name) {
+                //console.log(locat);
+                if (up) {
+                    faceUp(locat, img, name);
+                } else {
+                    faceDown(locat);
+                }
+            });
+
+            socket.on('disappear', function (locat) {
+                $(locat).hide();
+                $(locat).find('.back').find('img').removeClass('borderPulse');
+            });
+
+            socket.on('scoreUpdate', function (newScore) {
+                for (var i = 0; i < newScore.length; i++) {
+                    //<span id="score0" class="badge badge-info">0</span>
+                    var scoreStr =
+                        newScore[i].player +
+                        "  <span class='badge badge-info'>" +
+                        newScore[i].score +
+                        '</span>';
+                    $('#p' + i).html(scoreStr);
+                }
+            });
+            socket.on('gameOver', function (qStr) {
+                window.location.href = '/gameOver' + qStr;
+            });
+        });
+    </script>
 </html>

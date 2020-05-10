@@ -1,54 +1,91 @@
-
 <head>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="css/start.css">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?">
-  <link rel="manifest" href="site.webmanifest">
-  <title>Offensive Hearts</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous"
+    />
+    <script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="css/start.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?" />
+    <link rel="manifest" href="site.webmanifest" />
+    <title>Offensive Hearts</title>
 </head>
 <body>
-	<div class="container fullScreen cent">
-		<div class="container">
-			<div class="row">
-				<div class="col-12 d-flex justify-content-center">
-					<div class="card col-8 shadow-lg p-3 mb-5 bg-white rounded">
-					<div class="row no-gutters">
-						<div class="col-md-4">
-							<img class="card-img" src="img/red_joker.png">
-						</div>
-						<div class="col-md-8">
-						<div class="card-body">
-							<h5 class="card-title">Offensive Hearts 💕</h5>
-							<form action="/createRoom" method="post">
-								<div class="form-group">
-									<label for="roomId">Room ID</label>
-									<input class="form-control" id="roomId" name="roomId" aria-describedby="emailHelp" placeholder="i.e. xN4BJTAVL">
-									<small id="emailHelp" class="form-text text-muted">Leave Empty For New Room</small>
-								</div>
-								<div class="form-group">
-									<label for="uName">Display Name</label>
-									<input Id="dispName" class="form-control" name="name" placeholder="i.e. Melody" required>
-								</div>
-								<button type="submit" class="btn btn-outline-primary float-right">Get Started</button>
-							</form>
-						</div>
-						</div>
-					</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container fullScreen cent">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="card col-8 shadow-lg p-3 mb-5 bg-white rounded">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img class="card-img" src="img/red_joker.png" />
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        Offensive Hearts 💕
+                                    </h5>
+                                    <form action="/createRoom" method="post">
+                                        <div class="form-group">
+                                            <label for="roomId">Room ID</label>
+                                            <input
+                                                class="form-control"
+                                                id="roomId"
+                                                name="roomId"
+                                                aria-describedby="emailHelp"
+                                                placeholder="i.e. xN4BJTAVL"
+                                            />
+                                            <small
+                                                id="emailHelp"
+                                                class="form-text text-muted"
+                                                >Leave Empty For New Room</small
+                                            >
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="uName"
+                                                >Display Name</label
+                                            >
+                                            <input
+                                                Id="dispName"
+                                                class="form-control"
+                                                name="name"
+                                                placeholder="i.e. Melody"
+                                                required
+                                            />
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            class="btn btn-outline-primary float-right"
+                                        >
+                                            Get Started
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script>
-	var param = window.location.hash.substr(1).split('&');
-	if (param != ""){
-		$("#roomId").val(param);
-	}
+    var param = window.location.hash.substr(1).split('&');
+    if (param != '') {
+        $('#roomId').val(param);
+    }
 </script>
