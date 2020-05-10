@@ -25,7 +25,7 @@ class offensiveHeart {
         return false;
     }
 
-    makeNewGameDeck(){
+    makeNewGameDeck(){ 
         var totalRequiredCards = 24;
         var otherCards = [];
 
