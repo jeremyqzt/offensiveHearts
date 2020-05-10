@@ -1,0 +1,116 @@
+#messages{
+    max-height: 15vh;
+    height: 15vh;
+    padding-left: 5px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+  ::-webkit-scrollbar {
+      width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(200,200,200,1);
+      border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color:#fff;
+      -webkit-box-shadow: inset 0 0 6px rgba(90,90,90,0.7);
+  }
+  img {
+    max-width:100%;
+    height:auto;
+    border-radius: 5px;
+    border: 2px solid #000000;
+  }
+
+  img:hover {
+    border: 2px solid #007bff;
+  }
+
+  @keyframes border-pulsate {
+      0%   { border-color: 	rgba(0,123,255, 1); }
+      50% { border-color: rgba(0,123,255, 0.2); }
+      100%   { border-color: rgba(0,123,255, 1); }
+  }
+
+  .borderPulse{
+    animation: border-pulsate 2s infinite;
+  }
+
+
+  .rounded-border {
+    border-radius: 7px;
+    border: 1px solid #000000;    
+  }
+
+  .cardFlip {
+    max-width:100%;
+    height:auto;
+    perspective: 30rem;
+  }
+  .front, .back {
+    position: absolute;
+    width: 100%; height: 100%;
+    transition: transform 0.3s;
+    backface-visibility:hidden;
+  }
+  .front { 
+    background-color: #66ccff; 
+  }
+  .back { 
+    transform: rotateY(180deg); 
+  }
+  .frontFlip{ transform: rotateY(180deg); }
+  .backFlip { transform: rotateY(360deg); }
+  /*.cardFlip:hover .front{ transform: rotateY(180deg); }
+  .cardFlip:hover .back { transform: rotateY(360deg); }*/
+  .invis{
+    visibility:hidden;
+    z-index: -1;
+  }
+  .goldCircle {
+    height: 25px;
+    width: 25px;
+    display: table-cell;
+    font-size: x-small;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: lightgoldenrodyellow;
+    border: 2px solid gold;
+  }
+
+  .silverCircle {
+    height: 25px;
+    width: 25px;
+    display: table-cell;
+    font-size: x-small;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: grey;
+    border: 2px solid silver;
+  } 
+  .bronzeCircle {
+    height: 25px;
+    width: 25px;
+    display: table-cell;
+    font-size: x-small;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: burlywood;
+    border: 2px solid #b08d57;
+  }
+  .smallPadding {
+    padding-top: 10px;
+    padding-bottom: 3px;
+    border-radius: 10px;
+  }
