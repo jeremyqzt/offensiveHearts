@@ -36,24 +36,40 @@ class gameServerAdaptor{
         return room;
     }
 
-    joinRoom(room, socket, player){
+    getOkayName(room, name){
+        var okayName = name;
+        var nameIdx = 0;
+        if (room in this.games) {
+            if (this.games[room] == null) {
+                okayName = name;    //Okay to use
+            } else {
+                while (this.games[room].getPlayers().includes(okayName)){
+                    nameIdx += 1;
+                    okayName = okayName + nameIdx;
+                }
+            }
+        }
+        return okayName;
+    }
 
+    joinRoom(room, socket, player){
         //Sanity check - if direct room creation attempt
         if (!(room in this.games)){ 
             this.createNamedRoom(room);
         }
 
         socket.join(room);
-        this.sockets[socket] = {
-            room: room,
-            player: player
-        };
 
         if (this.toLeave.includes(player)){
             this.toLeave = this.toLeave.filter(item => !(item == player));
         } else {
-            this.games[room].addPlayer(player);
+            player = this.games[room].addPlayer(player);
         }
+
+        this.sockets[socket] = {
+            room: room,
+            player: player
+        };
     }
 
     getRoom(socket){

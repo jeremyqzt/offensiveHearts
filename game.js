@@ -158,7 +158,6 @@ class offensiveHeart {
     }
 
     addPlayer(name){
-        console.log("Adding " + name);
         this.players.push(name);
         this.playerCards[name] = [];
         this.scores[name] = 0;

@@ -21,14 +21,21 @@ app.get('/', (req, res) => {
 });
 
 app.get('/room/:rid/player/:pid/', function (req, res) {
-  var roomInfo = {roomName: req.params.rid,  player: req.params.pid};
-  res.render("game", {info: roomInfo});
+  okayName = serverAdaptor.getOkayName(req.params.rid, req.params.pid);
+  if (okayName == req.params.pid) {
+      var roomInfo = {roomName: req.params.rid,  player: req.params.pid};
+      res.render("game", {info: roomInfo});
+  } else {
+    res.redirect(`/room/${req.params.rid}/player/${okayName}`); //Avoid name collision
+  }
+
 })
 
 app.get('/room/:rid/', function (req, res) {
   var room = req.params.rid;
   var name = "NoName";
-  res.redirect(`/room/${room}/player/${name}`)
+  name = serverAdaptor.getOkayName(room, name);
+  res.redirect(`/room/${room}/player/${name}`);
 })
 
 app.post("/createRoom",function(req, res){
@@ -37,11 +44,9 @@ app.post("/createRoom",function(req, res){
   res.redirect(`/room/${room}/player/${name}`)
 });
 
-
 app.get('/gameOver',function(req, res){
   res.sendFile(__dirname + '/public/winner.html');
 });
-
 
 http.listen(3000, () => {
   console.log('listening on *:3000');
