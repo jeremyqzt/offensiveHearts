@@ -12,6 +12,10 @@
     font-size: 15px;
 }
 
+.boldText {
+    font-weight: 500;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
 }
