@@ -932,6 +932,9 @@
                 </div>
             </div>
         </div>
+        <audio id="cardFlipSound">
+          <source src="/sound/flipCard.wav" type="audio/wav">
+        </audio>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -945,6 +948,14 @@
             }
         });
 
+        function playSound(){
+          var flipSound = document.getElementById("cardFlipSound");
+          //Replay
+          flipSound.pause();
+          flipSound.currentTime = 0;
+          flipSound.play();
+        }
+
         function faceUp(locat, img, name) {
             $(locat).find('.front').addClass('frontFlip');
             $(locat).find('.back').addClass('backFlip');
@@ -952,6 +963,7 @@
             if (name == pName) {
                 $(locat).find('.back').find('img').addClass('borderPulse');
             }
+            playSound();
         }
 
         function faceDown(locat) {
@@ -959,6 +971,7 @@
             $(locat).find('.back').removeClass('backFlip');
             $(locat).find('.back').find('img').attr('src', '/img/back.png');
             $(locat).find('.back').find('img').removeClass('borderPulse');
+            playSound();
         }
 
         $('.cardFlip').on('click touch', function () {
