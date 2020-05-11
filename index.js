@@ -48,6 +48,10 @@ app.get('/gameOver',function(req, res){
   res.sendFile(__dirname + '/public/winner.html');
 });
 
+app.get('/credits',function(req, res){
+  res.sendFile(__dirname + '/public/authors.html');
+});
+
 http.listen(3000, () => {
   console.log('listening on *:3000');
 });
