@@ -101,7 +101,7 @@ img:hover {
     text-align: center;
     vertical-align: middle;
     border-radius: 50%;
-    background: lightgoldenrodyellow;
+    background: rgb(253, 236, 140);
     border: 2px solid gold;
 }
 
@@ -113,7 +113,7 @@ img:hover {
     text-align: center;
     vertical-align: middle;
     border-radius: 50%;
-    background: grey;
+    background: rgb(230, 230, 230);
     border: 2px solid silver;
 }
 .bronzeCircle {
