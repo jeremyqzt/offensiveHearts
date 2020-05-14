@@ -31,6 +31,11 @@ app.get('/room/:rid/player/:pid/', function (req, res) {
 
 })
 
+app.get('/lobby/:rid/pid/:pid/name/:name', function (req, res) {
+  var room = req.params.rid;
+  res.render("lobby",);
+})
+
 app.get('/room/:rid/', function (req, res) {
   var room = req.params.rid;
   var name = "NoName";
