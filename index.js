@@ -4,21 +4,38 @@ var session = require('express-session');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-var deckClass = require('./deck');
-var gameClass = require('./game');
 var adaptor = require('./gameServerAdaptor');
+var lobbyClass = require('./lobby');
 
 var serverAdaptor = new adaptor.gameServerAdaptor()
+var lobbies = new lobbyClass.lobbyRoom();
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({secret: 'secret', resave: true, saveUninitialized: true}));
+
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
   res.render("start");
 });
+
+app.get('/lobby/:rid/pid/:pid/name/:name', function (req, res) {
+  var rid = req.params.rid;
+  var pid = req.params.pid;
+  var name = req.params.name;
+  var admin = lobbies.isPlayerAdmin(pid, rid);
+  console.log(admin);
+
+  var roomCtx = {
+    rid: rid,
+    pid: pid,
+    name: name,
+    admin: admin,
+  };
+  res.render("lobby", {roomCtx: roomCtx});
+})
 
 app.get('/room/:rid/player/:pid/', function (req, res) {
   okayName = serverAdaptor.getOkayName(req.params.rid, req.params.pid);
@@ -28,12 +45,6 @@ app.get('/room/:rid/player/:pid/', function (req, res) {
   } else {
     res.redirect(`/room/${req.params.rid}/player/${okayName}`); //Avoid name collision
   }
-
-})
-
-app.get('/lobby/:rid/pid/:pid/name/:name', function (req, res) {
-  var room = req.params.rid;
-  res.render("lobby",);
 })
 
 app.get('/room/:rid/', function (req, res) {
@@ -45,8 +56,12 @@ app.get('/room/:rid/', function (req, res) {
 
 app.post("/createRoom",function(req, res){
   var name = req.body.name;
-  var room = serverAdaptor.createRoom();
-  res.redirect(`/room/${room}/player/${name}`)
+  var room = req.body.roomId;
+  if (room == ""){
+    room = lobbies.createLobby();
+  }
+  var pid = lobbies.addPlayerToLobby(name, room);
+  res.redirect(`/lobby/${room}/pid/${pid}/name/${name}`)
 });
 
 app.get('/gameOver',function(req, res){
@@ -59,6 +74,11 @@ app.get('/credits',function(req, res){
 
 http.listen(3000, () => {
   console.log('listening on *:3000');
+});
+
+//Unmatched routes
+app.all('*', function(req, res) {
+  res.redirect(req.baseUrl);
 });
 
 var sockRooms = {};

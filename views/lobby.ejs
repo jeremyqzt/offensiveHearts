@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/img/apple-touch-icon.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="/img/favicon-32x32.png?"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="/img/favicon-16x16.png?"
+/>
   <title>Lobby</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +37,17 @@
       -o-user-drag: none;
       user-drag: none;
     }
-
+    @keyframes blink {
+        0% {
+          opacity: .2;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          opacity: .2;
+        }
+    }
     .admin{
       border: 1px solid #0275d8;
     }
@@ -28,6 +55,25 @@
     .players{
       border: 1px solid #5bc0de ;
     }
+
+    .status{
+        margin-bottom: 2px;
+    }
+    .status span {
+        animation-name: blink;
+        animation-duration: 1.4s;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+
+    }
+
+    .status span:nth-child(2) {
+        animation-delay: .2s;
+    }
+    .status span:nth-child(3) {
+        animation-delay: .4s;
+    }
+
   </style>
 </head>
 <body>
@@ -38,8 +84,6 @@
     <p>Game Lobby</p>
   </div>
 </div>
-
-
 
 <div class="container">
 <h3>Lobby Admin</h3><br/>
@@ -52,7 +96,7 @@
     </div>
     <div class="col-md-8">
       <div class="card-body text-center">
-        <h5 class="card-title text-center">Jeremy <sup><span class="badge badge-primary">A</span></sup></h5>
+        <h5 class="card-title text-center" id="adminSlot">Admin <sup><span class="badge badge-primary">A</span></sup></h5>
         <span class="badge badge-success text-center">Connected!</span>
         <div> <br/>
         <button type="button" class="btn btn-outline-danger">Leave Lobby</button>
@@ -74,8 +118,8 @@
     </div>
     <div class="col-md-8">
       <div class="card-body text-center">
-        <h5 class="card-title text-center">Ben</h5>
-        <span class="badge badge-success text-center">Connected!</span>
+        <h5 class="card-title text-center">Empty</h5>
+        <span class="badge badge-secondary text-center"><p class="status">Open<span>.</span><span>.</span><span>.</span></p></span>
         <div> <br/>
         <button type="button" class="btn btn-outline-danger">Remove Player</button>
         </div>
@@ -93,8 +137,8 @@
     </div>
     <div class="col-md-8">
       <div class="card-body text-center">
-        <h5 class="card-title text-center">Jeremy</h5>
-        <span class="badge badge-success text-center">Connected!</span>
+        <h5 class="card-title text-center">Empty</h5>
+        <span class="badge badge-secondary text-center"><p class="status">Open<span>.</span><span>.</span><span>.</span></p></span>
         <div> <br/>
         <button type="button" class="btn btn-outline-danger">Remove Player</button>
         </div>
@@ -113,8 +157,8 @@
     </div>
     <div class="col-md-8">
       <div class="card-body text-center">
-        <h5 class="card-title text-center">Yanqi</h5>
-        <span class="badge badge-success text-center">Connected!</span>
+        <h5 class="card-title text-center">Empty</h5>
+        <span class="badge badge-secondary text-center"><p class="status">Open<span>.</span><span>.</span><span>.</span></p></span>
         <div> <br/>
         <button type="button" class="btn btn-outline-danger">Remove Player</button>
         </div>
@@ -134,4 +178,24 @@
 </div><br/>
 
 </body>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    var socket = io();
+    var rid = '<%= roomCtx.rid %>';
+    var pid = '<%= roomCtx.pid %>';
+    var name = '<%= roomCtx.name %>';
+    var admin = <%= roomCtx.admin %>;
+
+    setAdmin(admin, name);
+
+    function setAdmin(admin, name){
+      var adminText = name + " <sup><span class='badge badge-primary'>A</span></sup>";
+      var adminCard = document.getElementById("adminSlot");
+      if (admin){
+        adminCard.innerHTML = adminText;
+      }
+    }
+
+</script>
 </html>
