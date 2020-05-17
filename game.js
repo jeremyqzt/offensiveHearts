@@ -62,7 +62,7 @@ class offensiveHeart {
         return true;
     }
 
-    flipCard(row, col, player) {
+    flipCard(row, col, player, ignoreMatch) {
         if (!this.flipCardSanityCheck(row, col, player)) {
             return {
                 toFlip: null,
@@ -76,6 +76,12 @@ class offensiveHeart {
         var matched = [];
         //Read index of card
         var idx = this.getCardIdx(row, col);
+
+        if (ignoreMatch) {
+            return {
+                toFlip: this.gameDeck[idx]
+            };
+        }
 
         if (this.playerCards[player].length == 0) {
             this.playerCards[player].push({
