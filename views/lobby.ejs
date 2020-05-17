@@ -108,11 +108,9 @@
 </div>
 </div>
 <br/>
-<h3>Players</h3><br/>
-<div class="row" id="R0">
+<h3>Players</h3>
+
 </div>
-<br/>
-</div><br/>
 
 <div class="container">
   <div class="row justify-content-center">
@@ -131,15 +129,13 @@
     var pid = '<%= roomCtx.pid %>';
     var name = '<%= roomCtx.name %>';
     var admin = '<%= roomCtx.admin %>';
-    var container = document.getElementById("allPlayers");
 
-    console.log(admin === 'true');
+    var container = document.getElementById("allPlayers");
 
     var curPlayerCount = 0;
     var curRow = 0;
     var playerPerRow = 3;
   
-    setAdmin(admin, name);
     socket.emit('lobbyJoin', rid, pid);
 
     function enumeratePlayers(){
@@ -147,25 +143,34 @@
     }
 
     socket.on('playerEnumeration', function (players) {
+      clearRowsOfPlayers();
       for (item in players){
         if (!players[item].admin) {
           addPlayer(players[item].name);
+        } else {
+          setAdmin(players[item].name);
         }
       }
     });
 
     socket.on('goHome', function () {
-      console.log("Going home");
       window.location.href = "/";
     });
   
     function resizePlayerRows(){
-      if (curPlayerCount >= 3){
-        curRow += 1;
+      if (curPlayerCount >= 3 || curRow == 0){
         curPlayerCount = 0;
-        var rowHTML = `<div class='row' id="R${curRow}"></div><br/>`;
+        var rowHTML = `<div class='row' id="R${curRow}"></div>`;
         container.innerHTML += rowHTML;
+        curRow += 1;
       }
+    }
+
+    function clearRowsOfPlayers(){
+      for (var i = 0; i < curRow; i++){
+        $( `#R${i}` ).remove();
+      }
+      curRow = 0;
     }
 
     function addPlayer(playerName, leavable){
@@ -197,16 +202,14 @@
         </div>
       </div>
       </div>`;
-      $(`#R${curRow}`).append(playerCardHTML);
+      $(`#R${curRow-1}`).append(playerCardHTML);
       curPlayerCount += 1;
     }
 
-    function setAdmin(admin, name){
+    function setAdmin(name){
       var adminText = name + " <sup><span class='badge badge-primary'>A</span></sup>";
       var adminCard = document.getElementById("adminSlot");
-      if (admin === 'true'){
-        adminCard.innerHTML = adminText;
-      }
+      adminCard.innerHTML = adminText;
     }
 
 </script>
