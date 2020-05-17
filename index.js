@@ -90,6 +90,34 @@ io.on('connection', (socket) => {
       }
     });
 
+    socket.on('startGame', (rid, pid) => {
+      if (lobbies.isPlayerAdmin(pid, rid)){
+        io.to(room).emit('redirectStart');
+      }
+    });
+
+    socket.on('removePlayer', (rid, pid, toKick) => {
+      if ((lobbies.isPlayerAdmin(pid, rid)) ||            //Admin
+         (lobbies.getPlayerFromPid(rid, pid) == toKick)){ //Volunteer to leave
+
+        var toLeavePid = lobbies.getPidByName(rid, toKick);
+
+        if (lobbies.isPlayerAdmin(toLeavePid, rid)){ //If Admin, kick everyone
+          var allPlayers = lobbies.getAllPlayers(rid);
+          for (var i in allPlayers){
+            io.to(rid).emit('remove', allPlayers[i].name);
+          }
+        }
+
+        if (lobbies.removePlayerFromLobby(rid, toLeavePid)){  //Otherwise, just remove the player
+          io.to(rid).emit('remove', toKick);
+          var allPlayers = lobbies.getAllPlayers(rid);
+          io.to(rid).emit('playerEnumeration', allPlayers);
+        }
+        
+      }
+    });
+
     socket.on('lobbyJoin', (rid, pid) => {
       var valid = lobbies.isPidValid(pid, rid);
       if (valid){

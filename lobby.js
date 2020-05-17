@@ -85,18 +85,39 @@ class lobbyRoom{
 
     getAllPlayers(lid){
         var ret = [];
+        var player;
+
         for (player in this.lobbies[lid]){
             ret.push(this.lobbies[lib[player]]);
         }
         return ret;
     }
 
-    removePlayerFromLobby(player, lid){
-        var lobby = lid;
-        if (lobby == null){
-            lobby = this.createLobby();
+    removePlayerFromLobby(rid, pid){
+        if (!(rid in this.lobbies)){
+            return false;
         }
-        this.lobbies[lobby].push(player);
+
+        if (!(pid in this.lobbies[rid])){
+            return false;
+        }
+
+        delete this.lobbies[rid][pid];
+        return true;
+    }
+
+    getPidByName(rid, name){
+        if (!(rid in this.lobbies)){
+            return "";
+        }
+        var player;
+        for (player in this.lobbies[rid]){
+            if (this.lobbies[rid][player].name == name){
+                return this.lobbies[rid][player].pid;
+            }
+        }
+
+        return "";
     }
 
     isPlayerAdmin(pid, room){
@@ -111,6 +132,17 @@ class lobbyRoom{
         return this.lobbies[room][pid].admin;
     }
     
+    getPlayerFromPid(rid, pid){
+        if (!(rid in this.lobbies)){
+            return "";
+        }
+
+        if (!(pid in this.lobbies[rid])){
+            return "";
+        }
+
+        return this.lobbies[rid][pid].name;
+    }
 
     createPlayer(){
 

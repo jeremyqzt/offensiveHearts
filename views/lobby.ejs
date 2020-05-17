@@ -97,9 +97,14 @@
     <div class="col-md-8">
       <div class="card-body text-center">
         <h5 class="card-title text-center" id="adminSlot">Admin <sup><span class="badge badge-primary">A</span></sup></h5>
-        <span class="badge badge-success text-center">Connected!</span>
+        <span class="badge badge-success text-center"><p class="status">Connected<span>.</span><span>.</span><span>.</span></p></span>
         <div> <br/>
-        <button type="button" class="btn btn-danger">Leave Lobby</button>
+          <% if(roomCtx.admin){ %>
+            <button type="button" onClick="leaveGame('<%= roomCtx.name %>')" class="btn btn-danger">Leave Lobby</button>
+          <% } else{ %>  
+              <button type="button" class='btn btn-dark disabled' aria-disabled='true' disabled>Leave Lobby</button>
+          <% } %>
+
         </div>
       </div>
     </div>
@@ -111,15 +116,15 @@
 <h3>Players</h3>
 
 </div>
-
+<% if(roomCtx.admin){ %>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-4 text-center">
-      <button type="button" class="btn btn-success btn-block">Start The Game</button>
+      <button type="button" onClick="startGame()" class="btn btn-success btn-block">Start The Game</button>
     </div>   
   </div>
 </div><br/>
-
+<% } %>
 </body>
 <script src="/socket.io/socket.io.js"></script>
 
@@ -138,15 +143,20 @@
   
     socket.emit('lobbyJoin', rid, pid);
 
+    function startGame(){
+      io.emit("startGame", rid, pid);
+    }
+
     function enumeratePlayers(){
       socket.emit('playerEnumerationReq', rid, pid);
     }
 
     socket.on('playerEnumeration', function (players) {
+      console.log(players)
       clearRowsOfPlayers();
       for (item in players){
         if (!players[item].admin) {
-          addPlayer(players[item].name);
+          addPlayer(players[item].name, players[item].name == name);
         } else {
           setAdmin(players[item].name);
         }
@@ -157,6 +167,12 @@
       window.location.href = "/";
     });
   
+    socket.on('remove', function (toLeave) {
+      if (toLeave == name){
+        window.location.href = "/";
+      }
+    });
+    
     function resizePlayerRows(){
       if (curPlayerCount >= 3 || curRow == 0){
         curPlayerCount = 0;
@@ -173,12 +189,16 @@
       curRow = 0;
     }
 
+    function leaveGame(name){
+      socket.emit("removePlayer", rid, pid, name);
+    }
+
     function addPlayer(playerName, leavable){
-      var leaveBtn = "";
-      if (admin){
-        leaveBtn = "<button type='button' class='btn btn-danger'>Remove Player</button>";
+      var leaveBtn = "<button type='button' class='btn btn-dark disabled' aria-disabled='true' disabled>Leave Game</button>";
+      if (admin == "true"){
+        leaveBtn = `<button type='button' onClick='leaveGame("${playerName}")' class='btn btn-danger'>Remove Player</button>`;
       } else if (leavable){
-        leaveBtn = "<button type='button' class='btn btn-danger'>Leave</button>";
+        leaveBtn = `<button type='button' onClick='leaveGame("${playerName}")' class='btn btn-danger'>Leave Game</button>`;
       }
 
       resizePlayerRows();
