@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
 
     socket.on('startGame', (rid, pid) => {
       if (lobbies.isPlayerAdmin(pid, rid)){
-        io.to(room).emit('redirectStart');
+        io.to(rid).emit('redirectStart');
       }
     });
 

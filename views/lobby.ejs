@@ -104,7 +104,6 @@
           <% } else{ %>  
               <button type="button" class='btn btn-dark disabled' aria-disabled='true' disabled>Leave Lobby</button>
           <% } %>
-
         </div>
       </div>
     </div>
@@ -144,7 +143,7 @@
     socket.emit('lobbyJoin', rid, pid);
 
     function startGame(){
-      io.emit("startGame", rid, pid);
+      socket.emit("startGame", rid, pid);
     }
 
     function enumeratePlayers(){
@@ -152,7 +151,6 @@
     }
 
     socket.on('playerEnumeration', function (players) {
-      console.log(players)
       clearRowsOfPlayers();
       for (item in players){
         if (!players[item].admin) {
@@ -161,6 +159,10 @@
           setAdmin(players[item].name);
         }
       }
+    });
+
+    socket.on('redirectStart', function () {
+      window.location.href = `/room/${rid}/player/${name}/`;
     });
 
     socket.on('goHome', function () {
@@ -201,8 +203,11 @@
         leaveBtn = `<button type='button' onClick='leaveGame("${playerName}")' class='btn btn-danger'>Leave Game</button>`;
       }
 
+      var prefixImg = ["ace", "king", "queen", "jack"];
+      var suffixImg = ["_of_spades.png", "_of_hearts.png", "_of_clubs.png"]
       resizePlayerRows();
-      img = "/img/ace_of_spades.png";
+      imgPrefix = (curRow-1 > 3) ? 3: curRow-1; 
+      img = `/img/${prefixImg[imgPrefix]}${suffixImg[curPlayerCount]}`;
       var playerCardHTML = `
       <div class="col-4">
       <div class="card mb-3">
