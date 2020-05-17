@@ -26,8 +26,6 @@ app.get('/lobby/:rid/pid/:pid/name/:name', function (req, res) {
   var pid = req.params.pid;
   var name = req.params.name;
   var admin = lobbies.isPlayerAdmin(pid, rid);
-  console.log(admin);
-
   var roomCtx = {
     rid: rid,
     pid: pid,
@@ -47,21 +45,18 @@ app.get('/room/:rid/player/:pid/', function (req, res) {
   }
 })
 
-app.get('/room/:rid/', function (req, res) {
-  var room = req.params.rid;
-  var name = "NoName";
-  name = serverAdaptor.getOkayName(room, name);
-  res.redirect(`/room/${room}/player/${name}`);
-})
-
 app.post("/createRoom",function(req, res){
   var name = req.body.name;
   var room = req.body.roomId;
   if (room == ""){
     room = lobbies.createLobby();
+  } else {
+    room = lobbies.createLobbyIfNotExist(room);
   }
-  var pid = lobbies.addPlayerToLobby(name, room);
-  res.redirect(`/lobby/${room}/pid/${pid}/name/${name}`)
+
+  var validName = lobbies.getValidName(name, room);
+  var pid = lobbies.addPlayerToLobby(validName, room);
+  res.redirect(`/lobby/${room}/pid/${pid}/name/${validName}`)
 });
 
 app.get('/gameOver',function(req, res){
@@ -76,7 +71,6 @@ http.listen(3000, () => {
   console.log('listening on *:3000');
 });
 
-//Unmatched routes
 app.all('*', function(req, res) {
   res.redirect(req.baseUrl);
 });
@@ -88,32 +82,30 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
       var room = serverAdaptor.getRoom(socket);
       var player = serverAdaptor.getPlayer(socket);
-
       try{
-        console.log( `${player} has left the ${room}!`)
         io.to(room).emit('chat', `${player} has left the room!`);
         serverAdaptor.leaveRoom(socket);
       } catch(e) {
-        console.log(e);
+        //console.log(e);
       }
     });
 
+    socket.on('lobbyJoin', (rid, pid) => {
+      var valid = lobbies.isPidValid(pid, rid);
+      if (valid){
+        lobbies.joinLobby(socket, pid, rid);
+      } else {
+        io.to(socket.id).emit("goHome");
+      }
+      var allPlayers = lobbies.getAllPlayers(rid);
+      io.to(rid).emit('playerEnumeration', allPlayers);
+    });
+
     socket.on('join', (room, player) => {
-      //Join the room
       console.log( `${player} has joined the ${room}!`)
-
       serverAdaptor.joinRoom(room, socket, player);
-
-      //Notify everyone
       io.to(room).emit('chat', player + " has joined the room!");
       updateScore(socket, room);
-
-      //Flip over already flipped cards
-      var alreadyUsed = serverAdaptor.getGame(room).getRemovedCards();
-      for (var i = 0; i < alreadyUsed.length; i++){
-        var toFlip = "#R" + alreadyUsed[i].row + "C" + alreadyUsed[i].column;
-        io.to(room).emit('disappear', toFlip);
-      }
     });
 
     socket.on('flipReq', (row, col, name) => {

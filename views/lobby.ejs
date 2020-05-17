@@ -85,7 +85,7 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container" id="allPlayers">
 <h3>Lobby Admin</h3><br/>
 <div class="row">
 <div class="col-4">
@@ -99,7 +99,7 @@
         <h5 class="card-title text-center" id="adminSlot">Admin <sup><span class="badge badge-primary">A</span></sup></h5>
         <span class="badge badge-success text-center">Connected!</span>
         <div> <br/>
-        <button type="button" class="btn btn-outline-danger">Leave Lobby</button>
+        <button type="button" class="btn btn-danger">Leave Lobby</button>
         </div>
       </div>
     </div>
@@ -109,72 +109,17 @@
 </div>
 <br/>
 <h3>Players</h3><br/>
-<div class="row">
-<div class="col-4">
-<div class="card mb-3">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="/img/ace_of_hearts.png" class="card-img players" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body text-center">
-        <h5 class="card-title text-center">Empty</h5>
-        <span class="badge badge-secondary text-center"><p class="status">Open<span>.</span><span>.</span><span>.</span></p></span>
-        <div> <br/>
-        <button type="button" class="btn btn-outline-danger">Remove Player</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="row" id="R0">
 </div>
-</div>
-
-<div class="col-4">
-<div class="card mb-3">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="/img/ace_of_spades.png" class="card-img players" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body text-center">
-        <h5 class="card-title text-center">Empty</h5>
-        <span class="badge badge-secondary text-center"><p class="status">Open<span>.</span><span>.</span><span>.</span></p></span>
-        <div> <br/>
-        <button type="button" class="btn btn-outline-danger">Remove Player</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-
-<div class="col-4">
-<div class="card mb-3">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="/img/ace_of_diamonds.png" class="card-img players" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body text-center">
-        <h5 class="card-title text-center">Empty</h5>
-        <span class="badge badge-secondary text-center"><p class="status">Open<span>.</span><span>.</span><span>.</span></p></span>
-        <div> <br/>
-        <button type="button" class="btn btn-outline-danger">Remove Player</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+<br/>
 </div><br/>
 
-<div class="row justify-content-center">
-<div class="col-4 text-center">
-<button type="button" class="btn btn-outline-success btn-block">Start The Game</button>
-</div>
-</div>
-
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-4 text-center">
+      <button type="button" class="btn btn-success btn-block">Start The Game</button>
+    </div>   
+  </div>
 </div><br/>
 
 </body>
@@ -185,14 +130,81 @@
     var rid = '<%= roomCtx.rid %>';
     var pid = '<%= roomCtx.pid %>';
     var name = '<%= roomCtx.name %>';
-    var admin = <%= roomCtx.admin %>;
+    var admin = '<%= roomCtx.admin %>';
+    var container = document.getElementById("allPlayers");
 
+    console.log(admin === 'true');
+
+    var curPlayerCount = 0;
+    var curRow = 0;
+    var playerPerRow = 3;
+  
     setAdmin(admin, name);
+    socket.emit('lobbyJoin', rid, pid);
+
+    function enumeratePlayers(){
+      socket.emit('playerEnumerationReq', rid, pid);
+    }
+
+    socket.on('playerEnumeration', function (players) {
+      for (item in players){
+        if (!players[item].admin) {
+          addPlayer(players[item].name);
+        }
+      }
+    });
+
+    socket.on('goHome', function () {
+      console.log("Going home");
+      window.location.href = "/";
+    });
+  
+    function resizePlayerRows(){
+      if (curPlayerCount >= 3){
+        curRow += 1;
+        curPlayerCount = 0;
+        var rowHTML = `<div class='row' id="R${curRow}"></div><br/>`;
+        container.innerHTML += rowHTML;
+      }
+    }
+
+    function addPlayer(playerName, leavable){
+      var leaveBtn = "";
+      if (admin){
+        leaveBtn = "<button type='button' class='btn btn-danger'>Remove Player</button>";
+      } else if (leavable){
+        leaveBtn = "<button type='button' class='btn btn-danger'>Leave</button>";
+      }
+
+      resizePlayerRows();
+      img = "/img/ace_of_spades.png";
+      var playerCardHTML = `
+      <div class="col-4">
+      <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="${img}" class="card-img players" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body text-center">
+              <h5 class="card-title text-center">${playerName}</h5>
+              <span class="badge badge-success text-center"><p class="status">Connected<span>.</span><span>.</span><span>.</span></p></span>
+              <div> <br/>
+              ${leaveBtn}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>`;
+      $(`#R${curRow}`).append(playerCardHTML);
+      curPlayerCount += 1;
+    }
 
     function setAdmin(admin, name){
       var adminText = name + " <sup><span class='badge badge-primary'>A</span></sup>";
       var adminCard = document.getElementById("adminSlot");
-      if (admin){
+      if (admin === 'true'){
         adminCard.innerHTML = adminText;
       }
     }
