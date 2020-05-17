@@ -134,6 +134,11 @@ io.on('connection', (socket) => {
       serverAdaptor.joinRoom(room, socket, player);
       io.to(room).emit('chat', player + " has joined the room!");
       updateScore(socket, room);
+      var alreadyUsed = serverAdaptor.getGame(room).getRemovedCards();
+      for (var i = 0; i < alreadyUsed.length; i++){
+        var toFlip = "#R" + alreadyUsed[i].row + "C" + alreadyUsed[i].column;
+        io.to(room).emit('disappear', toFlip);
+      }
     });
 
     socket.on('flipReq', (row, col, name) => {
