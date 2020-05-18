@@ -6,12 +6,33 @@ class lobbyRoom{
         this.lobbies = {};
         this.lobbyInitialized = {};
         this.socketPlayers = {};
+        this.roomStarted = {};
     }
 
     createLobby(){
         var lid = shortid.generate();
         this.lobbies[lid] = {};
+        this.roomStarted[lid] = false;
+
         return lid;
+    }
+
+    getGameHandOver(lid){
+        return this.lobbies[lid];
+    }
+
+    setRoomAsStarted(lid){
+        if (lid in this.roomStarted){
+            this.roomStarted[lid] = true;
+        }
+    }
+
+    isGameStarted(lid){
+        if (lid in this.roomStarted){
+            return this.roomStarted[lid];
+        }    
+
+        return false;
     }
 
     isPidValid(pid, rid){

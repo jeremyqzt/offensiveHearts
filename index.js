@@ -38,14 +38,17 @@ app.get('/lobby/:rid/pid/:pid/name/:name', function (req, res) {
   res.render("lobby", { roomCtx: roomCtx });
 })
 
-app.get('/room/:rid/player/:pid/', function (req, res) {
-  okayName = serverAdaptor.getOkayName(req.params.rid, req.params.pid);
-  if (okayName == req.params.pid) {
-    var roomInfo = { roomName: req.params.rid, player: req.params.pid };
-    res.render("game", { info: roomInfo });
-  } else {
-    res.redirect(`/room/${req.params.rid}/player/${okayName}`); //Avoid name collision
+app.get('/game/:rid/pid/:pid/name/:name', function (req, res) {
+  var rid = req.params.rid;
+  var pid = req.params.pid;
+  var name = req.params.name;
+
+  if (!(serverAdaptor.okayToJoin(rid, pid, name))){
+    return res.redirect('/');
   }
+  var roomInfo = { rid:rid, pid: pid, name:name };
+  res.render("game", { info: roomInfo });
+
 })
 
 app.post("/createRoom", function (req, res) {
@@ -56,7 +59,6 @@ app.post("/createRoom", function (req, res) {
   } else {
     room = lobbies.createLobbyIfNotExist(room);
   }
-
   var validName = lobbies.getValidName(name, room);
   var pid = lobbies.addPlayerToLobby(validName, room);
   res.redirect(`/lobby/${room}/pid/${pid}/name/${validName}`)
@@ -75,7 +77,7 @@ http.listen(3000, () => {
 });
 
 app.all('*', function (req, res) {
-  res.redirect(req.baseUrl);
+  return res.redirect(req.baseUrl);
 });
 
 var sockRooms = {};
@@ -95,6 +97,9 @@ io.on('connection', (socket) => {
 
   socket.on('startGame', (rid, pid) => {
     if (lobbies.isPlayerAdmin(pid, rid)){
+      lobbies.setRoomAsStarted(rid);
+      var handover = lobbies.getGameHandOver(rid);
+      serverAdaptor.setLobbyHandoverData(handover, rid);
       io.to(rid).emit('redirectStart');
     }
   });
@@ -131,35 +136,40 @@ io.on('connection', (socket) => {
     io.to(rid).emit('playerEnumeration', allPlayers);
   });
 
-  socket.on('join', (room, player) => {
-    console.log(`${player} has joined the ${room}!`)
-    serverAdaptor.joinRoom(room, socket, player);
-    io.to(room).emit('chat', player + " has joined the room!");
-    updateScore(socket, room);
-    removeStale(room);
+  socket.on('join', (rid, pid, pName) => {
+    console.log(`${pName} has joined the ${rid}!`)
+    serverAdaptor.joinRoom(rid, pid, pName, socket);
+    io.to(rid).emit('chat', pName + " has joined the room!");
+    updateScore(socket, rid);
+    removeStale(rid);
   });
 
-  socket.on('flipReq', (row, col, name) => {
+  socket.on('flipReq', (row, col, pid) => {
     var room = serverAdaptor.getRoom(socket);
     let toFlip = `#R${row}C${col}`;
-    var actions = serverAdaptor.getGame(room).flipCard(row, col, name);
+    var actions = serverAdaptor.getGame(room).flipCard(row, col, pid);
 
     if (actions.toFlip != null) {
-      io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.imageName, true, name);
-      postFlipActions(actions, socket, name, room);
+      io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.imageName, true, pid);
+      postFlipActions(actions, socket, pid, room);
     }
   });
 
   socket.on('tease', (rowLength, colLength, name) => {
-    for (x = 1; x <= rowLength; x++) {
-      for (y = 1; y <= colLength; y++) {
-        tease(socket, x, y);
-      }
-    }
+    var room = serverAdaptor.getRoom();
+    var game = serverAdaptor.getGame(room);
 
-    for (x = 1; x <= rowLength; x++) {
-      for (y = 1; y <= colLength; y++) {
-        teaseOver(socket, x, y);
+    if (!(game.demoedAlready())){
+      for (x = 1; x <= rowLength; x++) {
+        for (y = 1; y <= colLength; y++) {
+          tease(socket, x, y);
+        }
+      }
+
+      for (x = 1; x <= rowLength; x++) {
+        for (y = 1; y <= colLength; y++) {
+          teaseOver(socket, x, y);
+        }
       }
     }
   });

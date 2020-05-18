@@ -531,7 +531,7 @@
                             <div class="infoBarItem">Match ❤️=-1pt</div>
                             <div class="infoBarItem">
                                 🚪RoomID:
-                                <p><%= info.roomName %></p>
+                                <p><%= info.rid %></p>
                             </div>
                         </div>
                     </div>
@@ -610,7 +610,9 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     var socket = io();
-    var pName = '<%= info.player %>';
+    var pName = '<%= info.name %>';
+    var pid = '<%= info.pid %>';
+    var rid = '<%= info.rid %>';
 
     $(document).keypress(function (e) {
         if (e.which == 13) {
@@ -666,7 +668,7 @@
         let req = $(this).attr('id');
         let row = req.substr(1, 1);
         let col = req.substr(3);
-        socket.emit('flipReq', row, col, pName);
+        socket.emit('flipReq', row, col, pid);
     });
 
     function test(qStr) {
@@ -674,14 +676,12 @@
     }
 
     $(function () {
-        var roomId = '<%= info.roomName %>';
-        var name = '<%= info.player %>';
         var element = document.getElementById('messages');
-        socket.emit('join', roomId, name);
+        socket.emit('join', rid, pid, pName);
 
         $('#sendMsg').click(function (e) {
             var chat = $('#chatInput').val();
-            socket.emit('chat', name, chat);
+            socket.emit('chat', regularName, chat);
             $('#chatInput').val('');
         });
 

@@ -190,7 +190,7 @@
     });
 
     socket.on('redirectStart', function () {
-      window.location.href = `/room/${rid}/player/${name}/`;
+      window.location.href = `/game/${rid}/pid/${pid}/name/${name}`;
     });
 
     socket.on('goHome', function () {

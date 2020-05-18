@@ -13,6 +13,9 @@ class offensiveHeart {
         this.round = 0 + 1; //Already in first round
         this.totalRounds = 1;
         this.demo = false;
+        this.demoed = false;
+
+        this.pidToNames = {};
     }
 
     //False indicates no more rounds
@@ -45,8 +48,8 @@ class offensiveHeart {
         this.removePos = [];
     }
 
-    flipCardSanityCheck(row, col, player) {
-        if (!this.players.includes(player)) {
+    flipCardSanityCheck(row, col, pid) {
+        if (!this.players.includes(pid)) {
             return false;
         }
 
@@ -64,11 +67,18 @@ class offensiveHeart {
     }
 
     flipCardDemo(row, col){
-        return this.gameDeck[this.getCardIdx(row, col)];
+        if (!this.demoed){
+            return this.gameDeck[this.getCardIdx(row, col)];
+        }
     }
 
     setDemo(val){
         this.demo = val;
+        this.demoed = true;
+    }
+
+    demoedAlready(){
+        return this.demoed;
     }
 
     needToPlaySoundHeart(card){
@@ -78,8 +88,8 @@ class offensiveHeart {
         return false;
     }
 
-    flipCard(row, col, player) {
-        if (!this.flipCardSanityCheck(row, col, player) || this.demo) {
+    flipCard(row, col, pid) {
+        if (!this.flipCardSanityCheck(row, col, pid) || this.demo) {
             return {
                 toFlip: null,
                 toFlipDelay: [],
@@ -93,8 +103,8 @@ class offensiveHeart {
         //Read index of card
         var idx = this.getCardIdx(row, col);
 
-        if (this.playerCards[player].length == 0) {
-            this.playerCards[player].push({
+        if (this.playerCards[pid].length == 0) {
+            this.playerCards[pid].push({
                 card: this.gameDeck[idx],
                 row: row,
                 column: col,
@@ -103,7 +113,7 @@ class offensiveHeart {
         } else {
             if (
                 this.deck.isSameCard(
-                    this.playerCards[player][0].card,
+                    this.playerCards[pid][0].card,
                     this.gameDeck[idx]
                 )
             ) {
@@ -114,13 +124,13 @@ class offensiveHeart {
                 var heartSound =  (this.deck.isHeart(this.gameDeck[idx])) ? true: false;
                 var QoSSound =  (this.deck.isQoS(this.gameDeck[idx])) ? true: false;
 
-                this.updateScores(player, this.gameDeck[idx]);
+                this.updateScores(pid, this.gameDeck[idx]);
                 toFlip = this.gameDeck[idx];
                 matched = [
                     { row: row, column: col, heartSound: heartSound, QosSound: QoSSound, },  //Just play once
                     {
-                        row: this.playerCards[player][0].row,
-                        column: this.playerCards[player][0].column,
+                        row: this.playerCards[pid][0].row,
+                        column: this.playerCards[pid][0].column,
                         heartSound: false,
                         QosSound: false,
                     },
@@ -132,12 +142,12 @@ class offensiveHeart {
                 flipBackWDelay = [
                     { row: row, column: col },
                     {
-                        row: this.playerCards[player][0].row,
-                        column: this.playerCards[player][0].column,
+                        row: this.playerCards[pid][0].row,
+                        column: this.playerCards[pid][0].column,
                     },
                 ];
             }
-            this.playerCards[player] = [];
+            this.playerCards[pid] = [];
         }
 
         return {
@@ -155,23 +165,23 @@ class offensiveHeart {
         return this.totalMatchesLeft == 0;
     }
 
-    updateScores(player, matchedCard) {
+    updateScores(pid, matchedCard) {
         if (matchedCard.suit == deckClass.suites.Heart) {
-            this.updateEveryoneElse(player, -1);
+            this.updateEveryoneElse(pid, -1);
         } else if (
             matchedCard.suit == deckClass.suites.Spade &&
             matchedCard.value == 12
         ) {
-            this.scores[player] += 2;
-            this.updateEveryoneElse(player, -13);
+            this.scores[pid] += 2;
+            this.updateEveryoneElse(pid, -13);
         } else {
-            this.scores[player] += 2;
+            this.scores[pid] += 2;
         }
     }
 
-    updateEveryoneElse(playerToIgnore, score) {
+    updateEveryoneElse(pidIgnore, score) {
         for (var key in this.scores) {
-            if (key != playerToIgnore) {
+            if (key != pidIgnore) {
                 this.scores[key] += score;
             }
         }
@@ -181,7 +191,8 @@ class offensiveHeart {
         var retArr = [];
         for (var key in this.scores) {
             retArr.push({
-                player: key,
+                pid: key,
+                player: this.getPlayerRegularName(key),
                 score: this.scores[key],
             });
         }
@@ -197,16 +208,18 @@ class offensiveHeart {
         return this.gameDeck[idx];
     }
 
-    addPlayer(name) {
-        this.players.push(name);
-        this.playerCards[name] = [];
-        this.scores[name] = 0;
-        return name;
+    addPlayer(pid, regularName) {
+        this.pidToNames[pid] = regularName;
+        this.playerCards[pid] = [];
+        if (!(this.players.includes(pid))){
+            this.players.push(pid);
+            this.scores[pid] = 0;
+        }
     }
 
-    removePlayer(name) {
-        this.players = this.players.filter((item) => item != name);
-        delete this.scores[name];
+    removePlayer(pid) {
+        this.players = this.players.filter((item) => item != pid);
+        delete this.scores[pid];
     }
 
     countPlayers() {
@@ -215,6 +228,10 @@ class offensiveHeart {
 
     getPlayers() {
         return this.players;
+    }
+
+    getPlayerRegularName(pid){
+        return this.pidToNames[pid];
     }
 }
 
