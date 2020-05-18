@@ -142,7 +142,7 @@ io.on('connection', (socket) => {
   socket.on('flipReq', (row, col, name) => {
     var room = serverAdaptor.getRoom(socket);
     let toFlip = `#R${row}C${col}`;
-    var actions = serverAdaptor.getGame(room).flipCard(row, col, name, false);
+    var actions = serverAdaptor.getGame(room).flipCard(row, col, name);
 
     if (actions.toFlip != null) {
       io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.imageName, true, name);

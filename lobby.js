@@ -144,10 +144,6 @@ class lobbyRoom{
         return this.lobbies[rid][pid].name;
     }
 
-    createPlayer(){
-
-    }
-
     getAllPlayers(lid){
         return this.lobbies[lid];
     }
