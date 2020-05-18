@@ -137,7 +137,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('join', (rid, pid, pName) => {
-    console.log(`${pName} has joined the ${rid}!`)
+    //console.log(`${pName} has joined the ${rid}!`)
     serverAdaptor.joinRoom(rid, pid, pName, socket);
     io.to(rid).emit('chat', pName + " has joined the room!");
     updateScore(socket, rid);
@@ -155,34 +155,31 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('tease', (rowLength, colLength) => {
-    var room = serverAdaptor.getRoom();
+  socket.on('tease', (rowLength, colLength, pid) => {
+    var room = serverAdaptor.getRoom(socket);
     var game = serverAdaptor.getGame(room);
-    var pid = serverAdaptor.getPid(socket);
-    console.log(game);
 
     if (!(game.demoedAlready(pid))){
       var first = true;
       for (x = 1; x <= rowLength; x++) {
         for (y = 1; y <= colLength; y++) {
-          tease(socket, x, y, first);
+          tease(socket, x, y, first, pid);
           first = false;
         }
       }
 
-      first = true;
+      var last = false;
       for (x = 1; x <= rowLength; x++) {
         for (y = 1; y <= colLength; y++) {
-          teaseOver(socket, x, y, first);
-          first = false;
+          last = (y == colLength && x == rowLength)? true: last;
+          teaseOver(socket, x, y, last);
         }
       }
     }
   });
 
-  async function tease(socket, row, col, first) {
+  async function tease(socket, row, col, first, pid) {
     var room = serverAdaptor.getRoom(socket);
-    var pid = serverAdaptor.getPid(socket);
     let toFlip = `#R${row}C${col}`;
     if (first){
       serverAdaptor.getGame(room).startDemo(pid);
@@ -193,16 +190,14 @@ io.on('connection', (socket) => {
     }
   }
 
-  async function teaseOver(socket, row, col, first) {
+  async function teaseOver(socket, row, col, last) {
     var room = serverAdaptor.getRoom(socket);
-    var pid = serverAdaptor.getPid(socket);
     let toFlip = `#R${row}C${col}`;
     await new Promise(r => setTimeout(r, 5000));
     io.to(socket.id).emit('serverFlip', toFlip, "/img/back.png", false, null);
-    if (first){
+    if (last){
       serverAdaptor.getGame(room).endDemo();
     }
-
   }
 
   socket.on('chat', (player, msg) => {
@@ -227,7 +222,6 @@ io.on('connection', (socket) => {
     await new Promise(r => setTimeout(r, 200));
     for (var i = 0; i < actions.toFlipDisappear.length; i++) {
       toFlip = "#R" + actions.toFlipDisappear[i].row + "C" + actions.toFlipDisappear[i].column;
-      console.log(actions.toFlipDisappear[i].QosSound);
       io.to(room).emit('disappear', toFlip, actions.toFlipDisappear[i].heartSound, actions.toFlipDisappear[i].QosSound);
       io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name); //Also have to flip them back
     }

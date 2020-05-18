@@ -14,6 +14,7 @@ class offensiveHeart {
         this.totalRounds = 1;
         this.demo = 0;
         this.demoed = {};
+        this.wtf = [];
         this.pidToNames = {};
     }
 
