@@ -26,11 +26,14 @@ app.get('/lobby/:rid/pid/:pid/name/:name', function (req, res) {
   var pid = req.params.pid;
   var name = req.params.name;
   var admin = lobbies.isPlayerAdmin(pid, rid);
+  var fullUrl = req.protocol + '://' + req.get('host');
+
   var roomCtx = {
     rid: rid,
     pid: pid,
     name: name,
     admin: admin,
+    url: fullUrl,
   };
   res.render("lobby", { roomCtx: roomCtx });
 })
@@ -114,7 +117,6 @@ io.on('connection', (socket) => {
         var allPlayers = lobbies.getAllPlayers(rid);
         io.to(rid).emit('playerEnumeration', allPlayers);
       }
-
     }
   });
 

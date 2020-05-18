@@ -74,6 +74,10 @@
         animation-delay: .4s;
     }
 
+    #gameUrl{
+      width: 100%;
+    }
+
   </style>
 </head>
 <body>
@@ -87,9 +91,9 @@
 
 <div class="container" id="allPlayers">
 <h3>Lobby Admin</h3><br/>
-<div class="row">
+<div class="row align-bottom">
 <div class="col-4">
-<div class="card mb-3">
+<div class="card mb-3  h-100">
   <div class="row no-gutters">
     <div class="col-md-4">
       <img src="/img/black_joker.png" class="card-img admin" alt="...">
@@ -109,6 +113,17 @@
     </div>
   </div>
 </div>
+</div>
+<div class="col-8">
+  <div class="card  h-100">
+    <div class="card-body">
+      <h5 class="card-title">Room URL</h5>
+      <input type="text" value="<%= roomCtx.url %>/joinGame?rid=<%= roomCtx.rid %>" id="gameUrl" disabled>
+      <div class="text-right">
+        <br/><a onClick="copyClip()" href ="#" class="btn btn-primary">Copy To Clipboard</a>
+      </div>
+    </div>
+  </div>
 </div>
 </div>
 <br/>
@@ -141,6 +156,15 @@
     var playerPerRow = 3;
   
     socket.emit('lobbyJoin', rid, pid);
+
+    function copyClip(){
+      var copyText = document.getElementById("gameUrl");
+      copyText.disabled = false;
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      copyText.disabled = true;
+    }
 
     function startGame(){
       socket.emit("startGame", rid, pid);
