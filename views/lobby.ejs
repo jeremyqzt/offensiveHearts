@@ -93,7 +93,7 @@
 <h3>Lobby Admin</h3><br/>
 <div class="row align-bottom">
 <div class="col-4">
-<div class="card mb-3  h-100">
+<div class="card mb-3" id="adminCard">
   <div class="row no-gutters">
     <div class="col-md-4">
       <img src="/img/black_joker.png" class="card-img admin" alt="...">
@@ -115,7 +115,7 @@
 </div>
 </div>
 <div class="col-8">
-  <div class="card  h-100">
+  <div class="card" id="cardUrl">
     <div class="card-body">
       <h5 class="card-title">Room URL</h5>
       <input type="text" value="<%= roomCtx.url %>/joinGame?rid=<%= roomCtx.rid %>" id="gameUrl" disabled>
@@ -156,6 +156,10 @@
     var playerPerRow = 3;
   
     socket.emit('lobbyJoin', rid, pid);
+
+    $( document ).ready(function() {
+      $("#cardUrl").height($("#adminCard").height());
+    });
 
     function copyClip(){
       var copyText = document.getElementById("gameUrl");
