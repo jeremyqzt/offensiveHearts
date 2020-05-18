@@ -78,19 +78,26 @@
       width: 100%;
     }
 
+    .disable-select {
+        user-select: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+
+    }
   </style>
 </head>
 <body>
 
 <div class="jumbotron">
-  <div class="container text-center">
+  <div class="container text-center disable-select">
     <h1>Offensive Hearts 💕</h1>
     <p>Game Lobby</p>
   </div>
 </div>
 
 <div class="container" id="allPlayers">
-<h3>Lobby Admin</h3><br/>
+<h3 class="disable-select">Lobby Admin</h3><br/>
 <div class="row align-bottom">
 <div class="col-4">
 <div class="card mb-3" id="adminCard">
@@ -99,7 +106,7 @@
       <img src="/img/black_joker.png" class="card-img admin" alt="...">
     </div>
     <div class="col-md-8">
-      <div class="card-body text-center">
+      <div class="card-body text-center disable-select">
         <h5 class="card-title text-center" id="adminSlot">Admin <sup><span class="badge badge-primary">A</span></sup></h5>
         <span class="badge badge-success text-center"><p class="status">Connected<span>.</span><span>.</span><span>.</span></p></span>
         <div> <br/>
@@ -117,7 +124,7 @@
 <div class="col-8">
   <div class="card" id="cardUrl">
     <div class="card-body">
-      <h5 class="card-title">Room URL</h5>
+      <h5 class="card-title disable-select">Room URL</h5>
       <input type="text" value="<%= roomCtx.url %>/?rid=<%= roomCtx.rid %>" id="gameUrl" disabled>
       <div class="text-right">
         <br/><a onClick="copyClip()" href ="#" class="btn btn-primary">Copy To Clipboard</a>
@@ -127,7 +134,7 @@
 </div>
 </div>
 <br/>
-<h3>Players</h3>
+<h3 class="disable-select">Players</h3>
 
 </div>
 <% if(roomCtx.admin){ %>
@@ -238,7 +245,7 @@
       img = `/img/${prefixImg[imgPrefix]}${suffixImg[curPlayerCount]}`;
       var playerCardHTML = `
       <div class="col-4">
-      <div class="card mb-3">
+      <div class="card mb-3 disable-select">
         <div class="row no-gutters">
           <div class="col-md-4">
             <img src="${img}" class="card-img players" alt="...">
