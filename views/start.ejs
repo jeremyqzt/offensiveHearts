@@ -102,7 +102,9 @@
 </body>
 
 <script>
-    var param = window.location.hash.substr(1).split('&');
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var param = urlParams.get("rid");
     if (param != '') {
         $('#roomId').val(param);
     }

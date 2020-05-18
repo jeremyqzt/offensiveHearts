@@ -136,6 +136,7 @@ io.on('connection', (socket) => {
     serverAdaptor.joinRoom(room, socket, player);
     io.to(room).emit('chat', player + " has joined the room!");
     updateScore(socket, room);
+    removeStale(room);
   });
 
   socket.on('flipReq', (row, col, name) => {
@@ -152,35 +153,33 @@ io.on('connection', (socket) => {
   socket.on('tease', (rowLength, colLength, name) => {
     for (x = 1; x <= rowLength; x++) {
       for (y = 1; y <= colLength; y++) {
-        tease(socket, x, y, name);
+        tease(socket, x, y);
       }
     }
 
     for (x = 1; x <= rowLength; x++) {
       for (y = 1; y <= colLength; y++) {
-        teaseOver(socket, x, y, name);
+        teaseOver(socket, x, y);
       }
     }
   });
 
-  async function tease(socket, row, col, name) {
+  async function tease(socket, row, col) {
     var room = serverAdaptor.getRoom(socket);
     let toFlip = `#R${row}C${col}`;
-    var actions = serverAdaptor.getGame(room).flipCard(row, col, name, true);
-
-    if (actions.toFlip != null) {
-      io.to(socket.id).emit('serverFlip', toFlip, "/img/" + actions.toFlip.imageName, true, name);
-    }
+    serverAdaptor.getGame(room).setDemo(true);
+    var actions = serverAdaptor.getGame(room).flipCardDemo(row, col);
+    io.to(socket.id).emit('serverFlip', toFlip, "/img/" + actions.imageName, true, null);
   }
 
   async function teaseOver(socket, row, col, name) {
     var room = serverAdaptor.getRoom(socket);
     let toFlip = `#R${row}C${col}`;
-    var actions = serverAdaptor.getGame(room).flipCard(row, col, name, true);
-    await new Promise(r => setTimeout(r, 10000));
-    if (actions.toFlip != null) {
-      io.to(socket.id).emit('serverFlip', toFlip, "/img/back.png", true, name);
-    }
+    await new Promise(r => setTimeout(r, 5000));
+    io.to(socket.id).emit('serverFlip', toFlip, "/img/back.png", false, null);
+    await new Promise(r => setTimeout(r, 200)); //200MS to sync
+    serverAdaptor.getGame(room).setDemo(false);
+
   }
 
   socket.on('chat', (player, msg) => {
@@ -223,5 +222,13 @@ io.on('connection', (socket) => {
   function updateScore(socket, room) {
     var scoreUpdate = serverAdaptor.getGame(room).getScores();
     io.to(room).emit('scoreUpdate', scoreUpdate);
+  }
+
+  function removeStale(room){
+    var alreadyUsed = serverAdaptor.getGame(room).getRemovedCards();
+    for (var i = 0; i < alreadyUsed.length; i++){
+      var toFlip = "#R" + alreadyUsed[i].row + "C" + alreadyUsed[i].column;
+      io.to(room).emit('disappear', toFlip);
+    }
   }
 });

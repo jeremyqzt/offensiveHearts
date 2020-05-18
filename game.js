@@ -12,6 +12,7 @@ class offensiveHeart {
         this.scores = {};
         this.round = 0 + 1; //Already in first round
         this.totalRounds = 1;
+        this.demo = false;
     }
 
     //False indicates no more rounds
@@ -62,8 +63,16 @@ class offensiveHeart {
         return true;
     }
 
+    flipCardDemo(row, col){
+        return this.gameDeck[this.getCardIdx(row, col)];
+    }
+
+    setDemo(val){
+        this.demo = val;
+    }
+
     flipCard(row, col, player, ignoreMatch) {
-        if (!this.flipCardSanityCheck(row, col, player)) {
+        if (!this.flipCardSanityCheck(row, col, player) || this.demo) {
             return {
                 toFlip: null,
                 toFlipDelay: [],

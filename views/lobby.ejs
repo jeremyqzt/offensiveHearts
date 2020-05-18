@@ -118,7 +118,7 @@
   <div class="card" id="cardUrl">
     <div class="card-body">
       <h5 class="card-title">Room URL</h5>
-      <input type="text" value="<%= roomCtx.url %>/joinGame?rid=<%= roomCtx.rid %>" id="gameUrl" disabled>
+      <input type="text" value="<%= roomCtx.url %>/?rid=<%= roomCtx.rid %>" id="gameUrl" disabled>
       <div class="text-right">
         <br/><a onClick="copyClip()" href ="#" class="btn btn-primary">Copy To Clipboard</a>
       </div>
@@ -154,7 +154,7 @@
     var curPlayerCount = 0;
     var curRow = 0;
     var playerPerRow = 3;
-  
+
     socket.emit('lobbyJoin', rid, pid);
 
     $( document ).ready(function() {
