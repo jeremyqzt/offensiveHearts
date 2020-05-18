@@ -88,6 +88,14 @@ class deck{
         return ((cardA.suit === cardB.suit) && (cardA.value === cardB.value));
     }
 
+    isHeart(card){
+        return card.suit == Suites.Heart;
+    }
+
+    isQoS(card){
+        return (card.suit == Suites.Spade && card.value == 12)
+    }
+
     shuffleCurDeck() {
         this.deck = this.shuffle(this.deck);
     }

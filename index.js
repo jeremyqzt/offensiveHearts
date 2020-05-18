@@ -204,7 +204,8 @@ io.on('connection', (socket) => {
     await new Promise(r => setTimeout(r, 200));
     for (var i = 0; i < actions.toFlipDisappear.length; i++) {
       toFlip = "#R" + actions.toFlipDisappear[i].row + "C" + actions.toFlipDisappear[i].column;
-      io.to(room).emit('disappear', toFlip);
+      console.log(actions.toFlipDisappear[i].QosSound);
+      io.to(room).emit('disappear', toFlip, actions.toFlipDisappear[i].heartSound, actions.toFlipDisappear[i].QosSound);
       io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name); //Also have to flip them back
     }
 
@@ -228,7 +229,7 @@ io.on('connection', (socket) => {
     var alreadyUsed = serverAdaptor.getGame(room).getRemovedCards();
     for (var i = 0; i < alreadyUsed.length; i++){
       var toFlip = "#R" + alreadyUsed[i].row + "C" + alreadyUsed[i].column;
-      io.to(room).emit('disappear', toFlip);
+      io.to(room).emit('disappear', toFlip, false, false); //No Sound
     }
   }
 });

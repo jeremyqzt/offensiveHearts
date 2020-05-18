@@ -599,6 +599,12 @@
     <audio id="cardFlipSound">
         <source src="/sound/flipCard.wav" type="audio/wav">
     </audio>
+    <audio id="heartMatchSound">
+        <source src="/sound/glassBreak.wav" type="audio/wav">
+    </audio>
+    <audio id="QoSMatchSound">
+        <source src="/sound/QoSpades.mp3" type="audio/mpeg">
+    </audio>
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -620,6 +626,23 @@
         flipSound.play();
     }
 
+    function playQoSSound() {
+        var flipSound = document.getElementById("QoSMatchSound");
+        //Replay
+        flipSound.pause();
+        flipSound.currentTime = 0;
+        flipSound.play();
+    }
+
+    function playHeartSound(){
+        var heartSound = document.getElementById("heartMatchSound");
+        //Replay
+        heartSound.pause();
+        heartSound.volume = 0.15;
+        heartSound.currentTime = 0;
+        heartSound.play();     
+    }
+
     function faceUp(locat, img, name) {
         $(locat).find('.front').addClass('frontFlip');
         $(locat).find('.back').addClass('backFlip');
@@ -633,9 +656,10 @@
     function faceDown(locat) {
         $(locat).find('.front').removeClass('frontFlip');
         $(locat).find('.back').removeClass('backFlip');
+        var soundHeart = $(locat).find('.back').find('img').attr('src').includes("hearts");
         $(locat).find('.back').find('img').attr('src', '/img/back.png');
         $(locat).find('.back').find('img').removeClass('borderPulse');
-        playSound();
+        playSound();        
     }
 
     $('.cardFlip').on('click touch', function () {
@@ -675,9 +699,15 @@
             }
         });
 
-        socket.on('disappear', function (locat) {
+        socket.on('disappear', function (locat, soundHeart, soundQos) {
             $(locat).hide();
             $(locat).find('.back').find('img').removeClass('borderPulse');
+            if (soundHeart){
+                playHeartSound();
+            }
+            if (soundQos){
+                playQoSSound();
+            }
         });
 
         socket.on('scoreUpdate', function (newScore) {

@@ -71,6 +71,13 @@ class offensiveHeart {
         this.demo = val;
     }
 
+    needToPlaySoundHeart(card){
+        if (card.suit == deckClass.suites.Heart){
+            return true;
+        }
+        return false;
+    }
+
     flipCard(row, col, player, ignoreMatch) {
         if (!this.flipCardSanityCheck(row, col, player) || this.demo) {
             return {
@@ -110,13 +117,18 @@ class offensiveHeart {
                 //Flip card
                 //Flip it back after 1 second
                 //Decrease total card pool
+                var heartSound =  (this.deck.isHeart(this.gameDeck[idx])) ? true: false;
+                var QoSSound =  (this.deck.isQoS(this.gameDeck[idx])) ? true: false;
+
                 this.updateScores(player, this.gameDeck[idx]);
                 toFlip = this.gameDeck[idx];
                 matched = [
-                    { row: row, column: col },
+                    { row: row, column: col, heartSound: heartSound, QosSound: QoSSound, },  //Just play once
                     {
                         row: this.playerCards[player][0].row,
                         column: this.playerCards[player][0].column,
+                        heartSound: false,
+                        QosSound: false,
                     },
                 ];
                 this.removePos = this.removePos.concat(matched);
