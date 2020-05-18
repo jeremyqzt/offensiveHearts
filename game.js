@@ -12,9 +12,8 @@ class offensiveHeart {
         this.scores = {};
         this.round = 0 + 1; //Already in first round
         this.totalRounds = 1;
-        this.demo = false;
-        this.demoed = false;
-
+        this.demo = 0;
+        this.demoed = {};
         this.pidToNames = {};
     }
 
@@ -67,18 +66,23 @@ class offensiveHeart {
     }
 
     flipCardDemo(row, col){
-        if (!this.demoed){
-            return this.gameDeck[this.getCardIdx(row, col)];
+        return this.gameDeck[this.getCardIdx(row, col)];
+    }
+
+    startDemo(pid){
+        this.demo += 1;
+        this.demoed[pid] = true;
+    }
+
+    endDemo(){
+        this.demo -= 1;
+    }
+
+    demoedAlready(pid){
+        if (pid in this.demoed){
+            return true;
         }
-    }
-
-    setDemo(val){
-        this.demo = val;
-        this.demoed = true;
-    }
-
-    demoedAlready(){
-        return this.demoed;
+        return false;
     }
 
     needToPlaySoundHeart(card){
@@ -89,7 +93,7 @@ class offensiveHeart {
     }
 
     flipCard(row, col, pid) {
-        if (!this.flipCardSanityCheck(row, col, pid) || this.demo) {
+        if (!this.flipCardSanityCheck(row, col, pid) || (this.demo != 0)) {
             return {
                 toFlip: null,
                 toFlipDelay: [],

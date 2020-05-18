@@ -681,7 +681,7 @@
 
         $('#sendMsg').click(function (e) {
             var chat = $('#chatInput').val();
-            socket.emit('chat', regularName, chat);
+            socket.emit('chat', pName, chat);
             $('#chatInput').val('');
         });
 
@@ -726,7 +726,7 @@
         });
 
         // This ultimately should be room x width/y height
-        socket.emit('tease', 4, 12, pName);
+        socket.emit('tease', 4, 12);
     });
 </script>
 

@@ -155,40 +155,53 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('tease', (rowLength, colLength, name) => {
+  socket.on('tease', (rowLength, colLength) => {
     var room = serverAdaptor.getRoom();
     var game = serverAdaptor.getGame(room);
+    var pid = serverAdaptor.getPid(socket);
+    console.log(game);
 
-    if (!(game.demoedAlready())){
+    if (!(game.demoedAlready(pid))){
+      var first = true;
       for (x = 1; x <= rowLength; x++) {
         for (y = 1; y <= colLength; y++) {
-          tease(socket, x, y);
+          tease(socket, x, y, first);
+          first = false;
         }
       }
 
+      first = true;
       for (x = 1; x <= rowLength; x++) {
         for (y = 1; y <= colLength; y++) {
-          teaseOver(socket, x, y);
+          teaseOver(socket, x, y, first);
+          first = false;
         }
       }
     }
   });
 
-  async function tease(socket, row, col) {
+  async function tease(socket, row, col, first) {
     var room = serverAdaptor.getRoom(socket);
+    var pid = serverAdaptor.getPid(socket);
     let toFlip = `#R${row}C${col}`;
-    serverAdaptor.getGame(room).setDemo(true);
+    if (first){
+      serverAdaptor.getGame(room).startDemo(pid);
+    }
     var actions = serverAdaptor.getGame(room).flipCardDemo(row, col);
-    io.to(socket.id).emit('serverFlip', toFlip, "/img/" + actions.imageName, true, null);
+    if (actions != null){
+      io.to(socket.id).emit('serverFlip', toFlip, "/img/" + actions.imageName, true, null);
+    }
   }
 
-  async function teaseOver(socket, row, col, name) {
+  async function teaseOver(socket, row, col, first) {
     var room = serverAdaptor.getRoom(socket);
+    var pid = serverAdaptor.getPid(socket);
     let toFlip = `#R${row}C${col}`;
     await new Promise(r => setTimeout(r, 5000));
     io.to(socket.id).emit('serverFlip', toFlip, "/img/back.png", false, null);
-    await new Promise(r => setTimeout(r, 200)); //200MS to sync
-    serverAdaptor.getGame(room).setDemo(false);
+    if (first){
+      serverAdaptor.getGame(room).endDemo();
+    }
 
   }
 

@@ -83,6 +83,13 @@ class gameServerAdaptor{
 
     getPlayer(socket){
         if (socket in this.sockets){
+            return this.sockets[socket].player;
+        }
+        return null;
+    }
+
+    getPid(socket){
+        if (socket in this.sockets){
             return this.sockets[socket].pid;
         }
         return null;
