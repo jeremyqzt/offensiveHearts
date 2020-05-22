@@ -151,7 +151,7 @@ io.on('connection', (socket) => {
     var actions = game.flipCard(row, col, pid);
 
     if (actions.toFlip != null) {
-      io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.imageName, true, pid);
+      io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.card.imageName, true, pid);
       postFlipActions(actions, socket, pid, room);
     }
   });
@@ -232,7 +232,7 @@ io.on('connection', (socket) => {
     if (actions.toFlipDisappear.length == 0 && actions.toFlipDelay.length == 0){ //No Match and its the first card selected
       await new Promise(r => setTimeout(r, 4300)); //6 seconds to do something, otherwise, reset
       if (curCards.length == 1){
-        if (game.compareCard(curCards[0].card, actions.toFlip)){
+        if (game.compareAction(curCards[0], actions.toFlip)){
           game.resetPlayerCards(name);
           toFlip = `#R${curCards[0].row}C${curCards[0].column}`;
           io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name);

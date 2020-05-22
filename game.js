@@ -14,7 +14,7 @@ class offensiveHeart {
         this.totalRounds = 1;
         this.demo = 0;
         this.demoed = {};
-        this.wtf = [];
+        this.flipId = 0;
         this.pidToNames = {};
     }
 
@@ -101,8 +101,8 @@ class offensiveHeart {
         return this.playerCards[pid];
     }
 
-    compareCard(cardA, cardB){
-        return this.deck.isSameCard(cardA, cardB);
+    compareAction(ActA, ActB){
+        return ActA.id === ActB.id;
     }
 
     flipCard(row, col, pid) {
@@ -119,15 +119,21 @@ class offensiveHeart {
         var matched = [];
         //Read index of card
         var idx = this.getCardIdx(row, col);
+        this.flipId += 1;
 
-        if (this.playerCards[pid].length == 0) {
+
+        if (this.playerCards[pid].length == 0) { //First Flip
             this.playerCards[pid].push({
                 card: this.gameDeck[idx],
                 row: row,
                 column: col,
+                id: this.flipId,
             });
-            toFlip = this.gameDeck[idx];
-        } else {
+            toFlip = {
+                card: this.gameDeck[idx],
+                id: this.flipId,
+            };
+        } else { //Second Flip
             if (
                 this.deck.isSameCard(
                     this.playerCards[pid][0].card,
@@ -142,7 +148,10 @@ class offensiveHeart {
                 var QoSSound =  (this.deck.isQoS(this.gameDeck[idx])) ? true: false;
 
                 this.updateScores(pid, this.gameDeck[idx]);
-                toFlip = this.gameDeck[idx];
+                toFlip = {
+                    card: this.gameDeck[idx],
+                    id: this.flipId,
+                };
                 matched = [
                     { row: row, column: col, heartSound: heartSound, QosSound: QoSSound, },  //Just play once
                     {
@@ -154,8 +163,11 @@ class offensiveHeart {
                 ];
                 this.removePos = this.removePos.concat(matched);
                 this.totalMatchesLeft--;
-            } else {
-                toFlip = this.gameDeck[idx];
+            } else { //Missed
+                toFlip = {
+                    card: this.gameDeck[idx],
+                    id: this.flipId,
+                };
                 flipBackWDelay = [
                     { row: row, column: col },
                     {
