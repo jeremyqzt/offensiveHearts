@@ -147,7 +147,8 @@ io.on('connection', (socket) => {
   socket.on('flipReq', (row, col, pid) => {
     var room = serverAdaptor.getRoom(socket);
     let toFlip = `#R${row}C${col}`;
-    var actions = serverAdaptor.getGame(room).flipCard(row, col, pid);
+    var game = serverAdaptor.getGame(room);
+    var actions = game.flipCard(row, col, pid);
 
     if (actions.toFlip != null) {
       io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.imageName, true, pid);
@@ -206,8 +207,9 @@ io.on('connection', (socket) => {
   });
 
   async function postFlipActions(actions, sock, name, room) {
-    //return;
+
     var game = serverAdaptor.getGame(room);
+  
     if (actions.toFlipDisappear.length > 0) {
       updateScore(sock, room);
     }
@@ -225,6 +227,19 @@ io.on('connection', (socket) => {
       io.to(room).emit('disappear', toFlip, actions.toFlipDisappear[i].heartSound, actions.toFlipDisappear[i].QosSound);
       io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name); //Also have to flip them back
     }
+
+    var curCards = game.getPlayersCards(name);
+    if (actions.toFlipDisappear.length == 0 && actions.toFlipDelay.length == 0){ //No Match and its the first card selected
+      await new Promise(r => setTimeout(r, 4300)); //6 seconds to do something, otherwise, reset
+      if (curCards.length == 1){
+        if (game.compareCard(curCards[0].card, actions.toFlip)){
+          game.resetPlayerCards(name);
+          toFlip = `#R${curCards[0].row}C${curCards[0].column}`;
+          io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name);
+        }
+      }
+    }
+
 
     if (game.isGameOver()) {
       var scoreUpdate = game.getScores();

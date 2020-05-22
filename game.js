@@ -93,6 +93,18 @@ class offensiveHeart {
         return false;
     }
 
+    resetPlayerCards(pid){
+        this.playerCards[pid] = [];
+    }
+
+    getPlayersCards(pid){
+        return this.playerCards[pid];
+    }
+
+    compareCard(cardA, cardB){
+        return this.deck.isSameCard(cardA, cardB);
+    }
+
     flipCard(row, col, pid) {
         if (!this.flipCardSanityCheck(row, col, pid) || (this.demo != 0)) {
             return {

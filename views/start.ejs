@@ -40,6 +40,15 @@
     <link rel="manifest" href="site.webmanifest" />
     <title>Offensive Hearts</title>
 </head>
+<style>
+    .disable-select {
+        user-select: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+
+    }
+</style>
 <body>
     <div class="container fullScreen cent">
         <div class="container">
@@ -48,11 +57,11 @@
                     <div class="card col-8 shadow-lg p-3 mb-5 bg-white rounded">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img class="card-img" src="img/red_joker.png" />
+                                <img class="card-img disable-select" src="img/red_joker.png" />
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">
+                                    <h5 class="card-title disable-select">
                                         Offensive Hearts 💕
                                     </h5>
                                     <form action="/createRoom" method="post">
