@@ -4,6 +4,11 @@ var bodyParser = require("body-parser");
 var session = require('express-session');
 var app = express();
 
+var http = express.createServer();
+http.get('*', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
+})
+
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/cert.pem', 'utf8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/chain.pem', 'utf8');
@@ -90,6 +95,10 @@ app.all('*', function (req, res) {
 
 https.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
+});
+
+http.listen(80, () => {
+	console.log('HTTP Server running on port 80');
 });
 
 var sockRooms = {};
