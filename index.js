@@ -3,11 +3,11 @@ var fs = require('fs');
 var bodyParser = require("body-parser");
 var session = require('express-session');
 var app = express();
-
-var http = express.createServer();
-http.get('*', function(req, res) {  
-    res.redirect('https://' + req.headers.host + req.url);
-})
+var http = require('http');
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80);
 
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/cert.pem', 'utf8');
@@ -95,10 +95,6 @@ app.all('*', function (req, res) {
 
 https.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
-});
-
-http.listen(80, () => {
-	console.log('HTTP Server running on port 80');
 });
 
 var sockRooms = {};
