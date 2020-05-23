@@ -2,8 +2,20 @@ var express = require('express');
 var bodyParser = require("body-parser");
 var session = require('express-session');
 var app = express();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+var https = require('https').createServer(credentials, app);
+
+var io = require('socket.io')(https);
 var adaptor = require('./gameServerAdaptor');
 var lobbyClass = require('./lobby');
 
@@ -14,7 +26,6 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
-
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
@@ -72,12 +83,12 @@ app.get('/credits', function (req, res) {
   res.sendFile(__dirname + '/public/authors.html');
 });
 
-http.listen(3000, () => {
-  console.log('listening on *:3000');
-});
-
 app.all('*', function (req, res) {
   return res.redirect(req.baseUrl);
+});
+
+https.listen(443, () => {
+	console.log('HTTPS Server running on port 443');
 });
 
 var sockRooms = {};
