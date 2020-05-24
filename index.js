@@ -269,9 +269,9 @@ io.on('connection', (socket) => {
       io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name, i == 0); //Also have to flip them back
     }
 
-    var curCards = game.getPlayersCards(name);
     if (actions.toFlipDisappear.length == 0 && actions.toFlipDelay.length == 0) { //No Match and its the first card selected
       await new Promise(r => setTimeout(r, 4300)); //6 seconds to do something, otherwise, reset
+      var curCards = game.getPlayersCards(name);
       if (curCards.length == 1) {
         if (game.compareAction(curCards[0], actions.toFlip)) {
           game.resetPlayerCards(name);
