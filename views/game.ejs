@@ -28,6 +28,7 @@
                     <h1 class="boldText col-12 text-center display-4">
                         Offensive Hearts 💕
                     </h1>
+                    <div class="sound"><img class="on" src="/img/sound-on.png" draggable="false" /></div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-1">
@@ -636,13 +637,13 @@
         flipSound.play();
     }
 
-    function playHeartSound(){
+    function playHeartSound() {
         var heartSound = document.getElementById("heartMatchSound");
         //Replay
         heartSound.pause();
         heartSound.volume = 0.15;
         heartSound.currentTime = 0;
-        heartSound.play();     
+        heartSound.play();
     }
 
     function faceUp(locat, img, name) {
@@ -661,7 +662,7 @@
         var soundHeart = $(locat).find('.back').find('img').attr('src').includes("hearts");
         $(locat).find('.back').find('img').attr('src', '/img/back.png');
         $(locat).find('.back').find('img').removeClass('borderPulse');
-        playSound();        
+        playSound();
     }
 
     $('.cardFlip').on('click touch', function () {
@@ -670,6 +671,29 @@
         let col = req.substr(3);
         socket.emit('flipReq', row, col, pid);
     });
+
+    $('.sound').on('click touch', function () {
+        toggleSound();
+    });
+
+    function toggleSound() {
+        let img = $('.sound').find('img')
+        var hasSound = img.hasClass('on');
+        img.toggleClass('on');
+        var src = hasSound ? '/img/sound-off.png' : '/img/sound-on.png';
+        img.attr('src', src);
+        $('audio').prop("muted", hasSound);
+        document.cookie = "sound=" + !hasSound;
+    }
+
+    function setSound(hasSound) {
+        let img = $('.sound').find('img');
+        hasSound ? img.addClass('on') : img.removeClass('on');
+        var src = hasSound ? '/img/sound-on.png' : '/img/sound-off.png';
+        img.attr('src', src);
+        $('audio').prop("muted", !hasSound);
+        document.cookie = "sound=" + hasSound;
+    }
 
     function test(qStr) {
         window.location.href = '/gameOver' + qStr;
@@ -702,10 +726,10 @@
         socket.on('disappear', function (locat, soundHeart, soundQos) {
             $(locat).hide();
             $(locat).find('.back').find('img').removeClass('borderPulse');
-            if (soundHeart){
+            if (soundHeart) {
                 playHeartSound();
             }
-            if (soundQos){
+            if (soundQos) {
                 playQoSSound();
             }
         });
@@ -727,6 +751,10 @@
 
         // This ultimately should be room x width/y height
         socket.emit('tease', 4, 12, pid);
+
+        // We only have one cookie, taking the lazy route;
+        let hasSound = document.cookie.endsWith("true") || document.cookie.length == 0;
+        setSound(hasSound);
     });
 </script>
 
