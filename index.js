@@ -6,7 +6,9 @@ var app = express();
 var http = require('http');
 var debug = false;
 if (process.argv.length > 2) {
-  debug = true;
+  if (process.argv[2] == "debug"){
+    debug = true;
+  }
 }
 
 if (!debug) {
