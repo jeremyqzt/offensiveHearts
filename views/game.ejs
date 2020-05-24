@@ -656,8 +656,6 @@
         if (sound){
             playSound();
         }
-
-        //Server delay is 6S, force down after 6.5 seconds
         setTimeout(function() { askServerCardState(locat); }, 6500);
     }
 
@@ -699,7 +697,7 @@
         var src = hasSound ? '/img/sound-off.png' : '/img/sound-on.png';
         img.attr('src', src);
         $('audio').prop("muted", hasSound);
-        document.cookie = "sound=" + !hasSound;
+        localStorage.setItem("sound", !hasSound);
     }
 
     function setSound(hasSound) {
@@ -708,7 +706,7 @@
         var src = hasSound ? '/img/sound-on.png' : '/img/sound-off.png';
         img.attr('src', src);
         $('audio').prop("muted", !hasSound);
-        document.cookie = "sound=" + hasSound;
+        localStorage.setItem("sound", hasSound);
     }
 
     function test(qStr) {
@@ -769,7 +767,7 @@
         socket.emit('tease', 4, 12, pid);
 
         // We only have one cookie, taking the lazy route;
-        let hasSound = document.cookie.endsWith("true") || document.cookie.length == 0;
+        let hasSound = localStorage.getItem('sound') == 'true';
         setSound(hasSound);
     });
 </script>
