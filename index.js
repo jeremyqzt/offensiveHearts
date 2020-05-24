@@ -156,6 +156,16 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('cardStateReq', (row, col, pid) => {
+    var room = serverAdaptor.getRoom(socket);
+    let toFlip = `#R${row}C${col}`;
+    var game = serverAdaptor.getGame(room);
+    if (!game.isCardInHand(row, col)){
+      io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, null, false);  
+    }
+  });
+
+
   socket.on('lobbyJoin', (rid, pid) => {
     var valid = lobbies.isPidValid(pid, rid);
     if (valid) {
@@ -182,7 +192,7 @@ io.on('connection', (socket) => {
     var actions = game.flipCard(row, col, pid);
 
     if (actions.toFlip != null) {
-      io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.card.imageName, true, pid);
+      io.to(room).emit('serverFlip', toFlip, "/img/" + actions.toFlip.card.imageName, true, pid, true);
       postFlipActions(actions, socket, pid, room);
     }
   });
@@ -218,7 +228,7 @@ io.on('connection', (socket) => {
     }
     var actions = serverAdaptor.getGame(room).flipCardDemo(row, col);
     if (actions != null){
-      io.to(socket.id).emit('serverFlip', toFlip, "/img/" + actions.imageName, true, null);
+      io.to(socket.id).emit('serverFlip', toFlip, "/img/" + actions.imageName, true, null, first);
     }
   }
 
@@ -226,7 +236,7 @@ io.on('connection', (socket) => {
     var room = serverAdaptor.getRoom(socket);
     let toFlip = `#R${row}C${col}`;
     await new Promise(r => setTimeout(r, 5000));
-    io.to(socket.id).emit('serverFlip', toFlip, "/img/back.png", false, null);
+    io.to(socket.id).emit('serverFlip', toFlip, "/img/back.png", false, null, last);
     if (last){
       serverAdaptor.getGame(room).endDemo();
     }
@@ -249,14 +259,14 @@ io.on('connection', (socket) => {
     var toFlip = "";
     for (var i = 0; i < actions.toFlipDelay.length; i++) {
       toFlip = "#R" + actions.toFlipDelay[i].row + "C" + actions.toFlipDelay[i].column;
-      io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name);
+      io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name, i == 0);
     }
 
     await new Promise(r => setTimeout(r, 200));
     for (var i = 0; i < actions.toFlipDisappear.length; i++) {
       toFlip = "#R" + actions.toFlipDisappear[i].row + "C" + actions.toFlipDisappear[i].column;
       io.to(room).emit('disappear', toFlip, actions.toFlipDisappear[i].heartSound, actions.toFlipDisappear[i].QosSound);
-      io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name); //Also have to flip them back
+      io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name, i == 0); //Also have to flip them back
     }
 
     var curCards = game.getPlayersCards(name);
@@ -266,7 +276,7 @@ io.on('connection', (socket) => {
         if (game.compareAction(curCards[0], actions.toFlip)){
           game.resetPlayerCards(name);
           toFlip = `#R${curCards[0].row}C${curCards[0].column}`;
-          io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name);
+          io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name, true);
         }
       }
     }

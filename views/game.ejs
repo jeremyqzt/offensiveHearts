@@ -646,26 +646,39 @@
         heartSound.play();
     }
 
-    function faceUp(locat, img, name) {
+    function faceUp(locat, img, name, sound) {
         $(locat).find('.front').addClass('frontFlip');
         $(locat).find('.back').addClass('backFlip');
         $(locat).find('.back').find('img').attr('src', img);
         if (name == pName) {
             $(locat).find('.back').find('img').addClass('borderPulse');
         }
-        playSound();
+        if (sound){
+            playSound();
+        }
 
-        //Server delay is 5S, force down after 5.5 seconds
-        setTimeout(function() { faceDown(locat); }, 5500);
+        //Server delay is 6S, force down after 6.5 seconds
+        setTimeout(function() { askServerCardState(locat); }, 6500);
     }
 
-    function faceDown(locat) {
+    function askServerCardState(locat){
+        let req = $(locat).attr('id');
+        let row = req.substr(1, 1);
+        let col = req.substr(3);
+        if ($(locat).find('.front').hasClass('frontFlip')) {
+            socket.emit('cardStateReq', row, col, pid);
+        }
+    }
+
+    function faceDown(locat, needSound) {
         $(locat).find('.front').removeClass('frontFlip');
         $(locat).find('.back').removeClass('backFlip');
         var soundHeart = $(locat).find('.back').find('img').attr('src').includes("hearts");
         $(locat).find('.back').find('img').attr('src', '/img/back.png');
         $(locat).find('.back').find('img').removeClass('borderPulse');
-        playSound();
+        if(needSound){
+            playSound();
+        }
     }
 
     $('.cardFlip').on('click touch', function () {
@@ -717,12 +730,12 @@
             element.scrollTop = element.scrollHeight;
         });
 
-        socket.on('serverFlip', function (locat, img, up, name) {
+        socket.on('serverFlip', function (locat, img, up, name, sound) {
             //console.log(locat);
             if (up) {
-                faceUp(locat, img, name);
+                faceUp(locat, img, name, sound);
             } else {
-                faceDown(locat);
+                faceDown(locat, sound);
             }
         });
 

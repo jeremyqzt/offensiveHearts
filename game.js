@@ -105,6 +105,19 @@ class offensiveHeart {
         return ActA.id === ActB.id;
     }
 
+    isCardInHand(row, col){
+        for (var player in this.playerCards){
+            for (var t = 0; t < this.playerCards[player].length; t++){
+                if (this.playerCards[player][t].row == row && this.playerCards[player][t].column == col){
+                    console.log(this.playerCards[player][t]);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     flipCard(row, col, pid) {
         if (!this.flipCardSanityCheck(row, col, pid) || (this.demo != 0)) {
             return {
