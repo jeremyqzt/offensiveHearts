@@ -85,6 +85,11 @@
       -moz-user-select: none;
 
     }
+
+    h5 img {
+      height: 25px;
+      width: 25px;
+    }
   </style>
 </head>
 
@@ -108,8 +113,7 @@
             </div>
             <div class="col-md-8">
               <div class="card-body text-center disable-select">
-                <h5 class="card-title text-center" id="adminSlot">Admin <sup><span
-                      class="badge badge-primary">A</span></sup></h5>
+                <h5 class="card-title text-center" id="adminSlot"><img src='/img/icons8-crown-48.png'></h5>
                 <span class="badge badge-success text-center">
                   <p class="status">Connected<span>.</span><span>.</span><span>.</span></p>
                 </span>
@@ -273,7 +277,7 @@
   }
 
   function setAdmin(name) {
-    var adminText = name + " <sup><span class='badge badge-primary'>A</span></sup>";
+    var adminText = name + " <img src='/img/icons8-crown-48.png'>";
     var adminCard = document.getElementById("adminSlot");
     adminCard.innerHTML = adminText;
   }
