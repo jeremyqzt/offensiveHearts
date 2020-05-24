@@ -651,8 +651,12 @@
         $(locat).find('.front').addClass('frontFlip');
         $(locat).find('.back').addClass('backFlip');
         $(locat).find('.back').find('img').attr('src', img);
-        if (name == pName) {
+        //if (name == pName) {
+        if (myFlippedCards.indexOf(locat) > -1) {
             $(locat).find('.back').find('img').addClass('borderPulse');
+        }
+        else {
+            $(locat).find('.back').find('img').addClass('borderPulseOthers');
         }
         if (sound) {
             playSound();
@@ -675,6 +679,7 @@
         var soundHeart = $(locat).find('.back').find('img').attr('src').includes("hearts");
         $(locat).find('.back').find('img').attr('src', '/img/back.png');
         $(locat).find('.back').find('img').removeClass('borderPulse');
+        $(locat).find('.back').find('img').removeClass('borderPulseOthers');
         if (needSound) {
             playSound();
         }
@@ -685,7 +690,6 @@
         let row = req.substr(1, 1);
         let col = req.substr(3);
         socket.emit('flipReq', row, col, pid);
-        console.log("added:" + req);
         myFlippedCards.push("#" + req);
     });
 
@@ -737,14 +741,12 @@
         });
 
         socket.on('serverFlip', function (locat, img, up, name, sound) {
-            //console.log(locat);
             if (up) {
                 faceUp(locat, img, name, sound);
             } else {
                 faceDown(locat, sound);
                 var index = myFlippedCards.indexOf(locat);
                 if (index > -1) {
-                    console.log("removed:" + locat);
                     myFlippedCards.splice(index, 1);
                 }
             }
@@ -753,7 +755,6 @@
         socket.on('disappear', function (locat, soundHeart, soundQos) {
             $(locat).hide();
             $(locat).find('.back').find('img').removeClass('borderPulse');
-            console.log(myFlippedCards.toString() + " flipping down" + locat);
             if (soundHeart) {
                 playHeartSound();
                 if (myFlippedCards.indexOf(locat) < 0)

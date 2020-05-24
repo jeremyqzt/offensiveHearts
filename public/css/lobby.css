@@ -57,6 +57,22 @@ img:hover {
     animation: border-pulsate 2s infinite;
 }
 
+@keyframes border-pulsate-others {
+    0% {
+        border-color: rgb(255, 0, 0, 1);
+    }
+    50% {
+        border-color: rgb(255, 0, 0, 0.2);
+    }
+    100% {
+        border-color: rgb(255, 0, 0, 1);
+    }
+}
+
+.borderPulseOthers {
+    animation: border-pulsate-others 2s infinite;
+}
+
 .rounded-border {
     border-radius: 7px;
     border: 1px solid #000000;
