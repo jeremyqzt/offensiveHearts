@@ -147,3 +147,10 @@ img:hover {
 .infoBarItem p {
     display: inline-block;
 }
+
+.sound {
+    height: 30px;
+    width: 30px;
+    margin-left: auto;
+    margin-right: 15px;
+}
