@@ -597,14 +597,14 @@
             </div>
         </div>
     </div>
-    <audio id="cardFlipSound">
+    <audio muted=false id="cardFlipSound">
         <source src="/sound/flipCard.wav" type="audio/wav">
     </audio>
-    <audio id="heartMatchSound">
-        <source src="/sound/glassBreak.wav" type="audio/wav">
+    <audio muted=false id="heartMatchSound">
+        <source src="/sound/roblox-death-sound.mp3" type="audio/mpeg">
     </audio>
-    <audio id="QoSMatchSound">
-        <source src="/sound/QoSpades.mp3" type="audio/mpeg">
+    <audio muted=false id="QoSMatchSound">
+        <source src="/sound/slowed-down-roblox-death-sound.mp3" type="audio/mpeg">
     </audio>
 </body>
 <script src="/socket.io/socket.io.js"></script>
@@ -614,6 +614,8 @@
     var pName = '<%= info.name %>';
     var pid = '<%= info.pid %>';
     var rid = '<%= info.rid %>';
+
+    var myFlippedCards = [];
 
     $(document).keypress(function (e) {
         if (e.which == 13) {
@@ -641,7 +643,6 @@
         var heartSound = document.getElementById("heartMatchSound");
         //Replay
         heartSound.pause();
-        heartSound.volume = 0.10;
         heartSound.currentTime = 0;
         heartSound.play();
     }
@@ -653,13 +654,13 @@
         if (name == pName) {
             $(locat).find('.back').find('img').addClass('borderPulse');
         }
-        if (sound){
+        if (sound) {
             playSound();
         }
-        setTimeout(function() { askServerCardState(locat); }, 6500);
+        setTimeout(function () { askServerCardState(locat); }, 6500);
     }
 
-    function askServerCardState(locat){
+    function askServerCardState(locat) {
         let req = $(locat).attr('id');
         let row = req.substr(1, 1);
         let col = req.substr(3);
@@ -674,7 +675,7 @@
         var soundHeart = $(locat).find('.back').find('img').attr('src').includes("hearts");
         $(locat).find('.back').find('img').attr('src', '/img/back.png');
         $(locat).find('.back').find('img').removeClass('borderPulse');
-        if(needSound){
+        if (needSound) {
             playSound();
         }
     }
@@ -684,6 +685,8 @@
         let row = req.substr(1, 1);
         let col = req.substr(3);
         socket.emit('flipReq', row, col, pid);
+        console.log("added:" + req);
+        myFlippedCards.push("#" + req);
     });
 
     $('.sound').on('click touch', function () {
@@ -713,6 +716,11 @@
         window.location.href = '/gameOver' + qStr;
     }
 
+    function addGameNotice(msg) {
+        $('#messages').append($('<li>').text(msg));
+        $('#messages').scrollTop($('#messages').prop("scrollHeight"));
+    }
+
     $(function () {
         var element = document.getElementById('messages');
         socket.emit('join', rid, pid, pName);
@@ -734,17 +742,31 @@
                 faceUp(locat, img, name, sound);
             } else {
                 faceDown(locat, sound);
+                var index = myFlippedCards.indexOf(locat);
+                if (index > -1) {
+                    console.log("removed:" + locat);
+                    myFlippedCards.splice(index, 1);
+                }
             }
         });
 
         socket.on('disappear', function (locat, soundHeart, soundQos) {
             $(locat).hide();
             $(locat).find('.back').find('img').removeClass('borderPulse');
+            console.log(myFlippedCards.toString() + " flipping down" + locat);
             if (soundHeart) {
                 playHeartSound();
+                if (myFlippedCards.indexOf(locat) < 0)
+                    addGameNotice("[Game] Someone has found pair of ❤️'s, -1 point.");
+                else
+                    addGameNotice("[Game] You found a pair of ❤️'s, -1 point for everyone.");
             }
             if (soundQos) {
                 playQoSSound();
+                if (myFlippedCards.indexOf(locat) < 0)
+                    addGameNotice("[Game] Ooof! Someone has found pair of ♠️Q's, -13 point.");
+                else
+                    addGameNotice("[Game] NAISUUU! You found a pair of ♠️Q's, -13 point for everyone.");
             }
         });
 
@@ -766,7 +788,6 @@
         // This ultimately should be room x width/y height
         socket.emit('tease', 4, 12, pid);
 
-        // We only have one cookie, taking the lazy route;
         let hasSound = localStorage.getItem('sound') == 'true';
         setSound(hasSound);
     });
