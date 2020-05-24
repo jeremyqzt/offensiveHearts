@@ -4,23 +4,31 @@ var bodyParser = require("body-parser");
 var session = require('express-session');
 var app = express();
 var http = require('http');
-http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-}).listen(80);
+var debug = false;
+if (process.argv.length > 2){
+  debug = true;
+}
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/chain.pem', 'utf8');
+if (!debug){
+  http.createServer(function (req, res) {
+      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+      res.end();
+  }).listen(80);
 
-const credentials = {
-	key: privateKey,
-	cert: certificate,
-	ca: ca
-};
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/privkey.pem', 'utf8');
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/cert.pem', 'utf8');
+  const ca = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/chain.pem', 'utf8');
 
-var https = require('https').createServer(credentials, app);
+  const credentials = {
+    key: privateKey,
+    cert: certificate,
+    ca: ca
+  };
 
+  var https = require('https').createServer(credentials, app);
+} else {
+  var https = require('http').createServer(app);
+}
 var io = require('socket.io')(https);
 var adaptor = require('./gameServerAdaptor');
 var lobbyClass = require('./lobby');
@@ -93,9 +101,15 @@ app.all('*', function (req, res) {
   return res.redirect(req.baseUrl);
 });
 
-https.listen(443, () => {
-	console.log('HTTPS Server running on port 443');
-});
+if (!debug){
+  https.listen(443, () => {
+	  console.log('HTTPS Server running on port 443');
+  });
+} else {
+  https.listen(3000, () => {
+	  console.log('HTTP Debug Server running on port 3000');
+  });
+}
 
 var sockRooms = {};
 

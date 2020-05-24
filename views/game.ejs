@@ -653,6 +653,9 @@
             $(locat).find('.back').find('img').addClass('borderPulse');
         }
         playSound();
+
+        //Server delay is 5S, force down after 5.5 seconds
+        setTimeout(function() { faceDown(locat); }, 5500);
     }
 
     function faceDown(locat) {
