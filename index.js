@@ -5,14 +5,14 @@ var session = require('express-session');
 var app = express();
 var http = require('http');
 var debug = false;
-if (process.argv.length > 2){
+if (process.argv.length > 2) {
   debug = true;
 }
 
-if (!debug){
+if (!debug) {
   http.createServer(function (req, res) {
-      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-      res.end();
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
   }).listen(80);
 
   const privateKey = fs.readFileSync('/etc/letsencrypt/live/offensivehearts.com/privkey.pem', 'utf8');
@@ -25,11 +25,11 @@ if (!debug){
     ca: ca
   };
 
-  var https = require('https').createServer(credentials, app);
+  var protocol = require('https').createServer(credentials, app);
 } else {
-  var https = require('http').createServer(app);
+  var protocol = require('http').createServer(app);
 }
-var io = require('socket.io')(https);
+var io = require('socket.io')(protocol);
 var adaptor = require('./gameServerAdaptor');
 var lobbyClass = require('./lobby');
 
@@ -68,10 +68,10 @@ app.get('/game/:rid/pid/:pid/name/:name', function (req, res) {
   var pid = req.params.pid;
   var name = req.params.name;
 
-  if (!(serverAdaptor.okayToJoin(rid, pid, name))){
+  if (!(serverAdaptor.okayToJoin(rid, pid, name))) {
     return res.redirect('/');
   }
-  var roomInfo = { rid:rid, pid: pid, name:name };
+  var roomInfo = { rid: rid, pid: pid, name: name };
   res.render("game", { info: roomInfo });
 
 })
@@ -101,13 +101,13 @@ app.all('*', function (req, res) {
   return res.redirect(req.baseUrl);
 });
 
-if (!debug){
-  https.listen(443, () => {
-	  console.log('HTTPS Server running on port 443');
+if (!debug) {
+  protocol.listen(443, () => {
+    console.log('HTTPS Server running on port 443');
   });
 } else {
-  https.listen(3000, () => {
-	  console.log('HTTP Debug Server running on port 3000');
+  protocol.listen(3000, () => {
+    console.log('HTTP Debug Server running on port 3000');
   });
 }
 
@@ -127,7 +127,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('startGame', (rid, pid) => {
-    if (lobbies.isPlayerAdmin(pid, rid)){
+    if (lobbies.isPlayerAdmin(pid, rid)) {
       lobbies.setRoomAsStarted(rid);
       var handover = lobbies.getGameHandOver(rid);
       serverAdaptor.setLobbyHandoverData(handover, rid);
@@ -137,18 +137,18 @@ io.on('connection', (socket) => {
 
   socket.on('removePlayer', (rid, pid, toKick) => {
     if ((lobbies.isPlayerAdmin(pid, rid)) ||            //Admin
-       (lobbies.getPlayerFromPid(rid, pid) == toKick)){ //Volunteer to leave
+      (lobbies.getPlayerFromPid(rid, pid) == toKick)) { //Volunteer to leave
 
       var toLeavePid = lobbies.getPidByName(rid, toKick);
 
-      if (lobbies.isPlayerAdmin(toLeavePid, rid)){ //If Admin, kick everyone
+      if (lobbies.isPlayerAdmin(toLeavePid, rid)) { //If Admin, kick everyone
         var allPlayers = lobbies.getAllPlayers(rid);
-        for (var i in allPlayers){
+        for (var i in allPlayers) {
           io.to(rid).emit('remove', allPlayers[i].name);
         }
       }
 
-      if (lobbies.removePlayerFromLobby(rid, toLeavePid)){  //Otherwise, just remove the player
+      if (lobbies.removePlayerFromLobby(rid, toLeavePid)) {  //Otherwise, just remove the player
         io.to(rid).emit('remove', toKick);
         var allPlayers = lobbies.getAllPlayers(rid);
         io.to(rid).emit('playerEnumeration', allPlayers);
@@ -191,7 +191,7 @@ io.on('connection', (socket) => {
     var room = serverAdaptor.getRoom(socket);
     var game = serverAdaptor.getGame(room);
 
-    if (!(game.demoedAlready(pid))){
+    if (!(game.demoedAlready(pid))) {
       var first = true;
       for (x = 1; x <= rowLength; x++) {
         for (y = 1; y <= colLength; y++) {
@@ -203,7 +203,7 @@ io.on('connection', (socket) => {
       var last = false;
       for (x = 1; x <= rowLength; x++) {
         for (y = 1; y <= colLength; y++) {
-          last = (y == colLength && x == rowLength)? true: last;
+          last = (y == colLength && x == rowLength) ? true : last;
           teaseOver(socket, x, y, last);
         }
       }
@@ -213,11 +213,11 @@ io.on('connection', (socket) => {
   async function tease(socket, row, col, first, pid) {
     var room = serverAdaptor.getRoom(socket);
     let toFlip = `#R${row}C${col}`;
-    if (first){
+    if (first) {
       serverAdaptor.getGame(room).startDemo(pid);
     }
     var actions = serverAdaptor.getGame(room).flipCardDemo(row, col);
-    if (actions != null){
+    if (actions != null) {
       io.to(socket.id).emit('serverFlip', toFlip, "/img/" + actions.imageName, true, null);
     }
   }
@@ -227,7 +227,7 @@ io.on('connection', (socket) => {
     let toFlip = `#R${row}C${col}`;
     await new Promise(r => setTimeout(r, 5000));
     io.to(socket.id).emit('serverFlip', toFlip, "/img/back.png", false, null);
-    if (last){
+    if (last) {
       serverAdaptor.getGame(room).endDemo();
     }
   }
@@ -240,7 +240,7 @@ io.on('connection', (socket) => {
   async function postFlipActions(actions, sock, name, room) {
 
     var game = serverAdaptor.getGame(room);
-  
+
     if (actions.toFlipDisappear.length > 0) {
       updateScore(sock, room);
     }
@@ -260,10 +260,10 @@ io.on('connection', (socket) => {
     }
 
     var curCards = game.getPlayersCards(name);
-    if (actions.toFlipDisappear.length == 0 && actions.toFlipDelay.length == 0){ //No Match and its the first card selected
+    if (actions.toFlipDisappear.length == 0 && actions.toFlipDelay.length == 0) { //No Match and its the first card selected
       await new Promise(r => setTimeout(r, 4300)); //6 seconds to do something, otherwise, reset
-      if (curCards.length == 1){
-        if (game.compareAction(curCards[0], actions.toFlip)){
+      if (curCards.length == 1) {
+        if (game.compareAction(curCards[0], actions.toFlip)) {
           game.resetPlayerCards(name);
           toFlip = `#R${curCards[0].row}C${curCards[0].column}`;
           io.to(room).emit('serverFlip', toFlip, "/img/back.png", false, name);
@@ -288,9 +288,9 @@ io.on('connection', (socket) => {
     io.to(room).emit('scoreUpdate', scoreUpdate);
   }
 
-  function removeStale(room){
+  function removeStale(room) {
     var alreadyUsed = serverAdaptor.getGame(room).getRemovedCards();
-    for (var i = 0; i < alreadyUsed.length; i++){
+    for (var i = 0; i < alreadyUsed.length; i++) {
       var toFlip = "#R" + alreadyUsed[i].row + "C" + alreadyUsed[i].column;
       io.to(room).emit('disappear', toFlip, false, false); //No Sound
     }
