@@ -66,49 +66,49 @@ class offensiveHeart {
         return true;
     }
 
-    flipCardDemo(row, col){
+    flipCardDemo(row, col) {
         return this.gameDeck[this.getCardIdx(row, col)];
     }
 
-    startDemo(pid){
+    startDemo(pid) {
         this.demo += 1;
         this.demoed[pid] = true;
     }
 
-    endDemo(){
+    endDemo() {
         this.demo -= 1;
     }
 
-    demoedAlready(pid){
-        if (pid in this.demoed){
+    demoedAlready(pid) {
+        if (pid in this.demoed) {
             return true;
         }
         return false;
     }
 
-    needToPlaySoundHeart(card){
-        if (card.suit == deckClass.suites.Heart){
+    needToPlaySoundHeart(card) {
+        if (card.suit == deckClass.suites.Heart) {
             return true;
         }
         return false;
     }
 
-    resetPlayerCards(pid){
+    resetPlayerCards(pid) {
         this.playerCards[pid] = [];
     }
 
-    getPlayersCards(pid){
+    getPlayersCards(pid) {
         return this.playerCards[pid];
     }
 
-    compareAction(ActA, ActB){
+    compareAction(ActA, ActB) {
         return ActA.id === ActB.id;
     }
 
-    isCardInHand(row, col){
-        for (var player in this.playerCards){
-            for (var t = 0; t < this.playerCards[player].length; t++){
-                if (this.playerCards[player][t].row == row && this.playerCards[player][t].column == col){
+    isCardInHand(row, col) {
+        for (var player in this.playerCards) {
+            for (var t = 0; t < this.playerCards[player].length; t++) {
+                if (this.playerCards[player][t].row == row && this.playerCards[player][t].column == col) {
                     return true;
                 }
             }
@@ -156,8 +156,8 @@ class offensiveHeart {
                 //Flip card
                 //Flip it back after 1 second
                 //Decrease total card pool
-                var heartSound =  (this.deck.isHeart(this.gameDeck[idx])) ? true: false;
-                var QoSSound =  (this.deck.isQoS(this.gameDeck[idx])) ? true: false;
+                var heartSound = (this.deck.isHeart(this.gameDeck[idx])) ? true : false;
+                var QoSSound = (this.deck.isQoS(this.gameDeck[idx])) ? true : false;
 
                 this.updateScores(pid, this.gameDeck[idx]);
                 toFlip = {
@@ -214,7 +214,7 @@ class offensiveHeart {
             matchedCard.value == 12
         ) {
             this.scores[pid] += 2;
-            this.updateEveryoneElse(pid, -13);
+            this.updateEveryoneElse(pid, -5);
         } else {
             this.scores[pid] += 2;
         }
@@ -252,7 +252,7 @@ class offensiveHeart {
     addPlayer(pid, regularName) {
         this.pidToNames[pid] = regularName;
         this.playerCards[pid] = [];
-        if (!(this.players.includes(pid))){
+        if (!(this.players.includes(pid))) {
             this.players.push(pid);
             this.scores[pid] = 0;
         }
@@ -271,7 +271,7 @@ class offensiveHeart {
         return this.players;
     }
 
-    getPlayerRegularName(pid){
+    getPlayerRegularName(pid) {
         return this.pidToNames[pid];
     }
 }
