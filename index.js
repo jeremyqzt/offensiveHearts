@@ -292,6 +292,9 @@ io.on('connection', (socket) => {
         qString += idxToPlace[i] + "=" + scoreUpdate[i].player + "," + scoreUpdate[i].score + "&"
       }
       io.to(room).emit('gameOver', qString);
+      //Cleanup
+      lobbies.deleteLobby(room);
+      serverAdaptor.deleteGame(room)
     }
   }
 

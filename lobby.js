@@ -82,6 +82,8 @@ class lobbyRoom{
         var lobby = lid;
         if (lobby == null){
             lobby = this.createLobby();
+        } else if (!lobby in this.lobbies){
+            lobby = this.createLobbyIfNotExist(lobby);
         }
 
         var admin = false;
@@ -170,6 +172,7 @@ class lobbyRoom{
     }
 
     deleteLobby(lid){
+        delete this.lobbyInitialized[lid];
         delete this.lobbies[lid];
     }
 

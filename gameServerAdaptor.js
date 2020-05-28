@@ -59,6 +59,9 @@ class gameServerAdaptor{
         return room;
     }
 
+    deleteGame(rid){
+        delete this.games[rid];
+    }
 
     joinRoom(rid, pid, pName, socket){
         //Sanity check - if direct room creation attempt
