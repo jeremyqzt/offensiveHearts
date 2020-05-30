@@ -1,8 +1,10 @@
+# Offensive Hearts
+
 This has been released as V0.1 https://offensivehearts.com/
 
-# offensiveHearts
-A card matching game loosely based off of hearts
+This is a multi plyaer memory card matching game. Find pairs to get points!
 
+# How to run
 Debugging the Application:
 ```
 node index.js debug
