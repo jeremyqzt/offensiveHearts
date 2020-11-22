@@ -1,8 +1,8 @@
 # Offensive Hearts
 
-This has been released as V0.1 https://offensivehearts.com/
+This has been released as V1.0 https://offensivehearts.com/
 
-This is a multi plyaer memory card matching game. Find pairs to get points!
+This is a multi player memory card matching game. Find pairs of hearts to make you opponents lose points or fair other pairs to gain points.
 
 # How to run
 Debugging the Application:
